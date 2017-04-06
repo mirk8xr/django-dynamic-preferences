@@ -13,6 +13,7 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
@@ -88,4 +89,4 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/Users/mirco/workspace/ddp/upload'
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'example/images')
