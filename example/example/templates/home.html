@@ -1,0 +1,10 @@
+<title>{{ global_preferences.general__presentation }}</title>
+Eccomi<br/>
+{% if request.user.preferences.misc__is_zombie %}
+    You will receive an email each time a human is zombified
+{% endif %}
+max_users: {{ global_preferences.auth.max_users }}<br/>
+favorite_vegetable: {{ global_preferences.auth.favorite_vegetable }}<br/>
+file_upload: {{ global_preferences.auth.file_upload }}<br/>
+<a href="{% url 'admin:index' %}">ADMIN</a><br/>
+Fine
