@@ -55,7 +55,7 @@ class BasePreference(object):
             )
 
         except self.model.DoesNotExist:
-            
+
             preference = self.model(
                 section=self.section,
                 name=self.name,
@@ -72,6 +72,7 @@ class BasePreference(object):
         """
         section = self.section or ""
         return separator.join([section, self.name])
+
 
 class GlobalPreference(BasePreference):
     """

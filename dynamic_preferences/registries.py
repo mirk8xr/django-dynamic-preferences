@@ -1,5 +1,4 @@
 
-
 from django.conf import settings
 from django.utils.importlib import import_module
 # import the logging library
@@ -66,7 +65,7 @@ class PreferencesRegistry(dict):
         try:
             section, name = name.split('.')
             return self[section][name]
-            
+
         except ValueError:
             pass
 
@@ -74,7 +73,7 @@ class PreferencesRegistry(dict):
         try:
             return self[section][name]
 
-        except:    
+        except:
             raise KeyError("No such preference in {0} with section={1} and name={2}".format(
                 self.__class__.__name__, section, name))
 
@@ -125,14 +124,13 @@ preferences_package = "dynamic_preferences_registry"
 
 class GlobalPreferencesRegistry(PreferencesRegistry):
     def populate(self, **kwargs):
-        
         return self.models(**kwargs)
 
 class SitePreferencesRegistry(PreferencesRegistry):
     pass
 
 class UserPreferencesRegistry(PreferencesRegistry):
-    
+
     def create_default_preferences(self, user):
         """
             Create default preferences models for a given user
@@ -169,7 +167,7 @@ def autodiscover(force_reload=False):
         # try to import self.package inside current app
         package = '{0}.{1}'.format(app, preferences_package)
         try:
-            #print('Dynamic-preferences: importing {0}...'.format(package))
+            # print('Dynamic-preferences: importing {0}...'.format(package))
             module = import_module(package)
 
             if force_reload:
@@ -178,14 +176,14 @@ def autodiscover(force_reload=False):
 
         except ImportError as e:
             pass
-            #print('Dynamic-preferences: cannnot import {0}, {1}'.format(package, e))
+            # print('Dynamic-preferences: cannnot import {0}, {1}'.format(package, e))
 
-    
+
 
 def register(cls):
-    
+
     instance = cls()
 
     cls.registry.register(name=cls.name, section=cls.section, preference=instance)
-    
+
     return cls

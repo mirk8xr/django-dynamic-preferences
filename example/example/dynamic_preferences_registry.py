@@ -1,8 +1,6 @@
-from dynamic_preferences.preferences import UserPreference, SitePreference, GlobalPreference
+from dynamic_preferences.preferences import UserPreference, GlobalPreference
 from dynamic_preferences.types import *
 from dynamic_preferences.registries import register
-
-
 
 @register
 class RegistrationAllowed(BooleanPreference, GlobalPreference):
@@ -73,3 +71,9 @@ class IsFanOfTokioHotel(BooleanPreference, UserPreference):
     section = "music"
     name = "is_fan_of_tokio_hotel"
     default = False
+
+@register
+class FileUpload(FilePreference, GlobalPreference):
+    section = "auth"
+    name = "file_upload"
+    default = None

@@ -9,20 +9,19 @@ from django.db.models.query import QuerySet
 from .utils import update
 from django.conf import settings
 from django.utils.functional import cached_property
-from dynamic_preferences.registries import user_preferences_registry, site_preferences_registry, global_preferences_registry
-
+from dynamic_preferences.registries import user_preferences_registry, site_preferences_registry, \
+    global_preferences_registry
 
 
 class PreferenceModelManager(models.Manager):
-
     def to_dict(self, **kwargs):
         """ 
             Return a dict of preference models values with the same structure as registries
             Used to access preferences value within templates
-        """ 
+        """
 
         preferences = self.get_queryset().all()
-        if kwargs: 
+        if kwargs:
             preferences = preferences.filter(**kwargs)
 
         d = {}
@@ -34,6 +33,7 @@ class PreferenceModelManager(models.Manager):
                 d[p.section][p.name] = p.value
 
         return d
+
 
 class BasePreferenceModel(models.Model):
     """
@@ -59,7 +59,6 @@ class BasePreferenceModel(models.Model):
         abstract = True
         app_label = 'dynamic_preferences'
 
-
     def __init__(self, *args, **kwargs):
         # Check if the model is already saved in DB
 
@@ -74,8 +73,6 @@ class BasePreferenceModel(models.Model):
                 self.value = v
             else:
                 self.value = self.preference.default
-
-
 
     @cached_property
     def preference(self):
@@ -98,8 +95,8 @@ class BasePreferenceModel(models.Model):
     def __unicode__(self):
         return self.preference.identifier()
 
-class GlobalPreferenceModel(BasePreferenceModel):
 
+class GlobalPreferenceModel(BasePreferenceModel):
     registry = global_preferences_registry
 
     class Meta:
@@ -111,7 +108,6 @@ class GlobalPreferenceModel(BasePreferenceModel):
 
 
 class UserPreferenceModel(BasePreferenceModel):
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="preferences")
     registry = user_preferences_registry
 
@@ -121,8 +117,8 @@ class UserPreferenceModel(BasePreferenceModel):
         verbose_name = "user preference"
         verbose_name_plural = "user preferences"
 
-class SitePreferenceModel(BasePreferenceModel):
 
+class SitePreferenceModel(BasePreferenceModel):
     site = models.ForeignKey(Site, related_name="preferences")
     registry = site_preferences_registry
 
@@ -144,7 +140,8 @@ user_preferences = UserPreferenceModel.objects
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
-def create_default_preferences(sender, **kwargs): 
+
+def create_default_preferences(sender, **kwargs):
     create_default_preferencesfor_new_users = getattr(settings, 'CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS', True)
     if create_default_preferencesfor_new_users and settings.AUTH_USER_MODEL == "auth.User":
         # the object which is saved can be accessed via kwargs 'instance' key.

@@ -3,15 +3,16 @@
     preferences types (Bool, int, etc.) and rules according validation
 
 """
-from django.forms import CharField, IntegerField, BooleanField, ChoiceField, DateTimeField, TypedChoiceField
+from django.forms import CharField, IntegerField, ChoiceField, TypedChoiceField
+
+from dynamic_preferences.forms import OptimisedClearableFileInput
 from dynamic_preferences.serializers import *
 from django.utils.functional import cached_property
-import datetime
-from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-class BasePreferenceType(object):
+from django import forms
 
+class BasePreferenceType(object):
     # A form field that will be used to display and edit the preference
     # use a class, not an instance
     field_class = None
@@ -32,7 +33,7 @@ class BasePreferenceType(object):
     #: a default value or a callable that return a value to be used as default
     default_value = None
 
-    _field = None        
+    _field = None
 
     def get_field_kwargs(self):
         field_kwargs = dict(self._default_field_attributes)
@@ -71,12 +72,11 @@ class BasePreferenceType(object):
             Create an actual instance of self.field
             Override this method if needed
         """
-        
+
         return self.field_class(**self.get_field_kwargs())
 
 
 class BooleanPreference(BasePreferenceType):
-
     BOOL_CHOICES = ((True, _('yes')), (False, _('no')))
 
     _default_field_attributes = {
@@ -90,31 +90,42 @@ class BooleanPreference(BasePreferenceType):
 
 
 class IntPreference(BasePreferenceType):
-
     field_class = IntegerField
     serializer = IntSerializer
 
 
 class StringPreference(BasePreferenceType):
-
     field_class = CharField
     serializer = StringSerializer
     default = ""
+
 
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
         "widget": forms.Textarea,
     }
 
-class ChoicePreference(BasePreferenceType):
 
+class ChoicePreference(BasePreferenceType):
     choices = ()
     field_class = ChoiceField
     serializer = StringSerializer
 
     def get_field_kwargs(self):
         field_kwargs = super(ChoicePreference, self).get_field_kwargs()
-
         field_kwargs['choices'] = self.choices or self.field_attribute['initial']
         return field_kwargs
 
+
+class FilePreference(BasePreferenceType):
+    field_class = forms.FileField
+    widget = OptimisedClearableFileInput
+    serializer = FileSerializer
+
+    def get_field_kwargs(self):
+        kwargs = super(FilePreference, self).get_field_kwargs()
+        kwargs['initial'] = self.default
+        if self.to_model().value:
+            kwargs['initial'] = self.to_model().value.url
+        kwargs['widget'] = OptimisedClearableFileInput
+        return kwargs
