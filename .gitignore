@@ -1,8 +1,7 @@
 *.pyc
 # Project settings and static files
-.idea/*
+.idea/
 .sublime*
-.idea
 
 fab_settings.py
 # OS generated files #
@@ -23,7 +22,6 @@ docs/_*
 *.sq3
 *.sqlite*
 *.sb
-
 
 *egg-info
 dist
