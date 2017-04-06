@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django import forms
 
+
 class BasePreferenceType(object):
     # A form field that will be used to display and edit the preference
     # use a class, not an instance

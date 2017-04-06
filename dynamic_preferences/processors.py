@@ -1,5 +1,6 @@
 from .models import global_preferences as gb, user_preferences as up
 
+
 def global_preferences(request):
     """
         Pass the values of global preferences to template context.

@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+from dynamic_preferences.registries import autodiscover
+
 admin.autodiscover()
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'example.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -12,6 +14,4 @@ urlpatterns = patterns('',
     url(r'^preferences/', include('dynamic_preferences.urls')),
 )
 
-
-from dynamic_preferences.registries import autodiscover
 autodiscover(True)

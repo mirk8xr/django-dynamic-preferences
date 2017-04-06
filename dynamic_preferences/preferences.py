@@ -1,6 +1,7 @@
 """
 Preferences are regular Python objects that can be declared within any django app.
-Once declared and registered, they can be edited by admins (for :py:class:`SitePreference` and :py:class:`GlobalPreference`)
+Once declared and registered, they can be edited by admins (for :py:class:`SitePreference` 
+and :py:class:`GlobalPreference`)
 and regular Users (for :py:class:`UserPreference`)
 
 UserPreference, SitePreference and GlobalPreference are mapped to corresponding PreferenceModel,
@@ -17,7 +18,8 @@ class BasePreference(object):
     A base class that handle common logic  for preferences
     """
 
-    #: The registry in which preference will be registered (:py:const:`registries.global_preferences`, :py:const:`registries.site_preferences` or :py:const:`registries.user_preferences`)
+    #: The registry in which preference will be registered (:py:const:`registries.global_preferences`,
+    # :py:const:`registries.site_preferences` or :py:const:`registries.user_preferences`)
     registry = None
 
     #: The section under which the preference will be registered
@@ -29,7 +31,8 @@ class BasePreference(object):
     #: A default value for the preference
     default = None
 
-    #: The model corresponding to this preference type (:py:class:`SitePreference`, :py:class:`GlobalPreference` or :py:class:`UserPreference`)
+    #: The model corresponding to this preference type (:py:class:`SitePreference`, :py:class:`GlobalPreference` or
+    # :py:class:`UserPreference`)
     model = None
 
     def register(self):
@@ -68,7 +71,8 @@ class BasePreference(object):
 
     def identifier(self, separator="."):
         """
-        Return the name and the section of the Preference joined with a separator, with the form `section<separator>name`
+        Return the name and the section of the Preference joined with a separator, with the form
+        `section<separator>name`
         """
         section = self.section or ""
         return separator.join([section, self.name])

@@ -5,8 +5,7 @@ Preference models, queryset and managers that handle the logic for persisting pr
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from django.db.models.query import QuerySet
-from .utils import update
+from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.functional import cached_property
 from dynamic_preferences.registries import user_preferences_registry, site_preferences_registry, \
@@ -46,7 +45,8 @@ class BasePreferenceModel(models.Model):
     #: a name for the preference
     name = models.TextField(max_length=255, db_index=True)
 
-    #: a value, serialized to a string. This field should not be accessed directly, use :py:attr:`BasePreferenceModel.value` instead
+    #: a value, serialized to a string. This field should not be accessed directly,
+    # use :py:attr:`BasePreferenceModel.value` instead
     raw_value = models.TextField(null=True, blank=True)
 
     #: Keep a reference to the whole preference registry.
@@ -136,10 +136,6 @@ user_preferences = UserPreferenceModel.objects
 # Create default preferences for new users
 # Right now, only works if the model is django.contrib.auth.models.User
 # And if settings.CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS is set to True in settings
-
-from django.db.models.signals import post_save
-from django.contrib.auth.models import User
-
 
 def create_default_preferences(sender, **kwargs):
     create_default_preferencesfor_new_users = getattr(settings, 'CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS', True)

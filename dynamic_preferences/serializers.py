@@ -3,7 +3,9 @@ from six import string_types
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db.models.fields.files import FieldFile
+from django.template import defaultfilters
 import os
+
 
 class SerializationError(Exception):
     pass
@@ -91,9 +93,6 @@ class IntSerializer(BaseSerializer):
             raise cls.exception("Value {0} cannot be converted to int")
 
 
-from django.template import defaultfilters
-
-
 class StringSerializer(BaseSerializer):
     @classmethod
     def serialize(cls, value, **kwargs):
@@ -116,9 +115,11 @@ class StringSerializer(BaseSerializer):
 
 DDP_BASE_PATH = ''
 
+
 class UnsetValue(object):
     pass
 UNSET = UnsetValue()
+
 
 class FileSerializer(BaseSerializer):
 

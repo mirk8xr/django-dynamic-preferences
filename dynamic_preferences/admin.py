@@ -1,6 +1,7 @@
 from django.contrib import admin
-from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel, SitePreferenceModel
+from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel
 from django import forms
+
 
 class PreferenceChangeListForm(forms.ModelForm):
     """
@@ -20,13 +21,16 @@ class PreferenceChangeListForm(forms.ModelForm):
         self.cleaned_data['raw_value'] = self.instance.preference.serializer.serialize(self.cleaned_data['raw_value'])
         return super(PreferenceChangeListForm, self).save(*args, **kwargs)
 
+
 class GlobalPreferenceChangeListForm(PreferenceChangeListForm):
     class Meta:
         model = GlobalPreferenceModel
 
+
 class UserPreferenceChangeListForm(PreferenceChangeListForm):
     class Meta:
         model = UserPreferenceModel
+
 
 class DynamicPreferenceAdmin(admin.ModelAdmin):
     readonly_fields = ('name', 'section', 'value')

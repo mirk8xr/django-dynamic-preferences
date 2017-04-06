@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel, SitePreferenceModel
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -83,6 +83,3 @@ class Command(BaseCommand):
                 p.to_model(site=site)
 
             print('Created/updated default preferences for first site')
-
-
-

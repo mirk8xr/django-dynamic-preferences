@@ -57,7 +57,8 @@ class PreferencesRegistry(dict):
 
         :param section: The section name under which the preference is registered
         :type section: str.
-        :param name: The name of the preference. You can use dotted notation 'section.name' if you want to avoid providing section param
+        :param name: The name of the preference. You can use dotted notation 'section.name' if you want to avoid
+         providing section param
         :type name: str.
         :return: a :py:class:`prefs.BasePreference` instance
         """
@@ -103,7 +104,8 @@ class PreferencesRegistry(dict):
     def models(self, section=None, **kwargs):
         """
         Return a list of model instances corresponding to registered preferences
-        This method calls :py:meth:`preferences.BasePreference.to_model`, see related documentation for more information
+        This method calls :py:meth:`preferences.BasePreference.to_model`, see related documentation for more
+        information
 
         :param section: The section name under which the preferences are registered
         :type section: str.
@@ -122,12 +124,15 @@ class PreferencesRegistry(dict):
 #: The package where autodiscover will try to find preferences to register
 preferences_package = "dynamic_preferences_registry"
 
+
 class GlobalPreferencesRegistry(PreferencesRegistry):
     def populate(self, **kwargs):
         return self.models(**kwargs)
 
+
 class SitePreferencesRegistry(PreferencesRegistry):
     pass
+
 
 class UserPreferencesRegistry(PreferencesRegistry):
 
@@ -142,6 +147,7 @@ user_preferences_registry = UserPreferencesRegistry()
 site_preferences_registry = SitePreferencesRegistry()
 global_preferences_registry = GlobalPreferencesRegistry()
 
+
 def clear():
     """
     Remove all data from registries
@@ -150,6 +156,7 @@ def clear():
     global_preferences_registry.clear()
     site_preferences_registry.clear()
     user_preferences_registry.clear()
+
 
 def autodiscover(force_reload=False):
     """
@@ -162,22 +169,20 @@ def autodiscover(force_reload=False):
     if force_reload:
         clear()
 
-
     for app in settings.INSTALLED_APPS:
         # try to import self.package inside current app
         package = '{0}.{1}'.format(app, preferences_package)
         try:
             # print('Dynamic-preferences: importing {0}...'.format(package))
-            module = import_module(package)
+            mod = import_module(package)
 
             if force_reload:
                 # mainly used in tests
-                reload(module)
+                reload(mod)
 
-        except ImportError as e:
+        except ImportError:
             pass
             # print('Dynamic-preferences: cannnot import {0}, {1}'.format(package, e))
-
 
 
 def register(cls):

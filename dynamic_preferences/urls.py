@@ -1,14 +1,14 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from . import views
-from .registries import user_preferences_registry, global_preferences_registry
+from .registries import global_preferences_registry
 from .forms import GlobalPreferenceForm
 
 
-urlpatterns = patterns('',
-
-    url(r'^global/$', 
+urlpatterns = patterns(
+    '',
+    url(r'^global/$',
         staff_member_required(views.PreferenceFormView.as_view(
             registry=global_preferences_registry, 
             form_class=GlobalPreferenceForm)), 
@@ -28,5 +28,3 @@ urlpatterns = patterns('',
         login_required(views.UserPreferenceFormView.as_view()), 
         name="dynamic_preferences.user.section"),
 )
-
-
