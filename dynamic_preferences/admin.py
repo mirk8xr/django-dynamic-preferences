@@ -13,6 +13,7 @@ class PreferenceChangeListForm(forms.ModelForm):
 
     def is_multipart(self):
         """
+        TODO: capire come fixare meglio l'accrocchio del multipart-encoded
         Returns True if the form needs to be multipart-encoded, i.e. it has
         FileInput. Otherwise, False.
         """
@@ -20,6 +21,9 @@ class PreferenceChangeListForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.get('instance')
+        # self.raw_value = self.instance.preference.setup_field()
+        # self.base_fields = {'raw_value': self.instance.preference.setup_field()}
+        # self.declared_fields = self.base_fields
         super(PreferenceChangeListForm, self).__init__(*args, **kwargs)
         self.fields['raw_value'] = self.instance.preference.setup_field()
 

@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dynamic_preferences',
     'example',
-    #'debug_toolbar'
 )
 
 MIDDLEWARE_CLASSES = (

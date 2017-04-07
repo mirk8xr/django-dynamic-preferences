@@ -11,7 +11,7 @@ class SerializationError(Exception):
     pass
 
 
-class BaseSerializer:
+class BaseSerializer(object):
     """
         A serializer take a Python variable and returns a string that can be stored safely in database
     """

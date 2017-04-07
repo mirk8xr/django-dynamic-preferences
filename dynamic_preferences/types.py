@@ -3,14 +3,11 @@
     preferences types (Bool, int, etc.) and rules according validation
 
 """
-from django.forms import CharField, IntegerField, ChoiceField, TypedChoiceField
-
+from django import forms
 from dynamic_preferences.forms import OptimisedClearableFileInput
 from dynamic_preferences.serializers import *
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-
-from django import forms
 
 
 class BasePreferenceType(object):
@@ -86,17 +83,17 @@ class BooleanPreference(BasePreferenceType):
         "coerce": lambda x: x == 'True',
     }
     default = False
-    field_class = TypedChoiceField
+    field_class = forms.TypedChoiceField
     serializer = BooleanSerializer
 
 
 class IntPreference(BasePreferenceType):
-    field_class = IntegerField
+    field_class = forms.IntegerField
     serializer = IntSerializer
 
 
 class StringPreference(BasePreferenceType):
-    field_class = CharField
+    field_class = forms.CharField
     serializer = StringSerializer
     default = ""
 
@@ -109,7 +106,7 @@ class LongStringPreference(StringPreference):
 
 class ChoicePreference(BasePreferenceType):
     choices = ()
-    field_class = ChoiceField
+    field_class = forms.ChoiceField
     serializer = StringSerializer
 
     def get_field_kwargs(self):
