@@ -49,7 +49,16 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     list_editable = ('raw_value',)
     search_fields = ['name', 'section', 'raw_value']
     list_filter = ('section',)
-    
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request):
+        return False
+
+    def get_actions(self, request):
+        return []
+
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 

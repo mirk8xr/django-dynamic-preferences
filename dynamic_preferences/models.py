@@ -76,8 +76,13 @@ class BasePreferenceModel(models.Model):
     @cached_property
     def preference(self):
         #return self.registry[self.section][self.name].initial
+        # r = None
+        # try:
+        #     self.registry.get(section=self.section, name=self.name)
+        # except:
+        #     self.registry
+        # return r
         return self.registry.get(section=self.section, name=self.name)
-
 
     def set_value(self, value):
         """

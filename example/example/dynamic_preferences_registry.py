@@ -2,6 +2,13 @@ from dynamic_preferences.preferences import UserPreference, GlobalPreference
 from dynamic_preferences.types import *
 from dynamic_preferences.registries import register
 
+@register
+class ColorHeader(BooleanPreference, GlobalPreference):
+
+    section = "auth"
+    name = "color_header"
+    default = True
+
 
 @register
 class RegistrationAllowed(BooleanPreference, GlobalPreference):
