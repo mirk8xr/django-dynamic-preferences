@@ -40,10 +40,10 @@ class BasePreferenceModel(models.Model):
     """
 
     #: The section under which the preference is declared
-    section = models.TextField(max_length=255, db_index=True, blank=True, null=True, default=None)
+    section = models.CharField(max_length=255, db_index=True, blank=True, null=True, default=None)
 
     #: a name for the preference
-    name = models.TextField(max_length=255, db_index=True)
+    name = models.CharField(max_length=255, db_index=True)
 
     #: a value, serialized to a string. This field should not be accessed directly,
     # use :py:attr:`BasePreferenceModel.value` instead
