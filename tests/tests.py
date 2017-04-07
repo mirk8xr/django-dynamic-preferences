@@ -3,7 +3,12 @@ from django.test import LiveServerTestCase, TestCase
 from dynamic_preferences.preferences import site_preferences_registry, user_preferences_registry, global_preferences_registry, SitePreference, UserPreference
 from dynamic_preferences.models import SitePreferenceModel, UserPreferenceModel, global_preferences, user_preferences
 
-from django.contrib.auth.models import User
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:  # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 from django.contrib.sites.models import Site
 from django.db import IntegrityError
 from dynamic_preferences.serializers import *

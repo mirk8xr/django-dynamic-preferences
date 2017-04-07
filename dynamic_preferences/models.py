@@ -3,7 +3,12 @@ Preference models, queryset and managers that handle the logic for persisting pr
 """
 
 from django.db import models
-from django.contrib.auth.models import User
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:  # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from django.conf import settings

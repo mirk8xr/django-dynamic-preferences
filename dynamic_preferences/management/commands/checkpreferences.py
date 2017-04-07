@@ -1,6 +1,11 @@
 from django.core.management.base import BaseCommand
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel, SitePreferenceModel
-from django.contrib.auth.models import User
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:  # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 from django.contrib.sites.models import Site
 from dynamic_preferences.registries import autodiscover, global_preferences_registry, user_preferences_registry, \
     site_preferences_registry
