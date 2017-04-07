@@ -2,6 +2,7 @@ from dynamic_preferences.preferences import UserPreference, GlobalPreference
 from dynamic_preferences.types import *
 from dynamic_preferences.registries import register
 
+
 @register
 class ColorHeader(BooleanPreference, GlobalPreference):
 

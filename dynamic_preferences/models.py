@@ -75,7 +75,7 @@ class BasePreferenceModel(models.Model):
 
     @cached_property
     def preference(self):
-        #return self.registry[self.section][self.name].initial
+        # return self.registry[self.section][self.name].initial
         # r = None
         # try:
         #     self.registry.get(section=self.section, name=self.name)
@@ -138,10 +138,10 @@ global_preferences = GlobalPreferenceModel.objects
 site_preferences = SitePreferenceModel.objects
 user_preferences = UserPreferenceModel.objects
 
+
 # Create default preferences for new users
 # Right now, only works if the model is django.contrib.auth.models.User
 # And if settings.CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS is set to True in settings
-
 def create_default_preferences(sender, **kwargs):
     create_default_preferencesfor_new_users = getattr(settings, 'CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS', True)
     if create_default_preferencesfor_new_users and settings.AUTH_USER_MODEL == "auth.User":
