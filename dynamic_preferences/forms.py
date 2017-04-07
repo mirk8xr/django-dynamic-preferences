@@ -89,6 +89,7 @@ class SitePreferenceForm(PreferenceForm):
 
 
 class OptimisedClearableFileInput(forms.ClearableFileInput):
+
     template_with_initial = (
         '%(initial_text)s: <a href="%(initial_url)s">%(initial)s</a> <br>'
         '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
@@ -97,6 +98,9 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
     clear_checkbox_label = ugettext_lazy('Remove this file')
 
     template_with_clear = '%(clear)s %(clear_checkbox_label)s -'
+
+    def __init__(self, *args, **kwargs):
+        super(OptimisedClearableFileInput, self).__init__(*args, **kwargs)
 
     def is_initial(self, value):
         """
@@ -115,8 +119,8 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
 
     def render(self, name, value, attrs=None):
         substitutions = {
-            'initial_text': self.initial_text,
-            'input_text': self.input_text,
+            'initial_text': 'File name',
+            'input_text': 'File',
             'clear_template': '',
             'clear_checkbox_label': self.clear_checkbox_label,
         }
@@ -136,5 +140,4 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
                     'name': substitutions['clear_checkbox_name'],
                 }
                 substitutions['clear_template'] = self.template_with_clear % substitutions
-
         return mark_safe(template % substitutions)

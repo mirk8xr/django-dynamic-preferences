@@ -119,8 +119,11 @@ class ChoicePreference(BasePreferenceType):
 
 
 class FilePreference(BasePreferenceType):
+    _default_field_attributes = {
+        "widget": OptimisedClearableFileInput,
+        "required": False
+    }
     field_class = forms.FileField
-    widget = OptimisedClearableFileInput
     serializer = FileSerializer
 
     def get_field_kwargs(self):
@@ -128,5 +131,4 @@ class FilePreference(BasePreferenceType):
         kwargs['initial'] = self.default
         if self.to_model().value:
             kwargs['initial'] = self.to_model().value.url
-        kwargs['widget'] = OptimisedClearableFileInput
         return kwargs

@@ -30,9 +30,7 @@ class PreferenceFormView(FormView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PreferenceFormView, self).get_context_data(*args, **kwargs)
-
         context['registry'] = self.registry
-
         return context
 
     def get_success_url(self):

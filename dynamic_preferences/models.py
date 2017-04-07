@@ -62,7 +62,6 @@ class BasePreferenceModel(models.Model):
     def __init__(self, *args, **kwargs):
         # Check if the model is already saved in DB
 
-
         v = kwargs.pop("value", None)
         super(BasePreferenceModel, self).__init__(*args, **kwargs)
 
@@ -76,7 +75,9 @@ class BasePreferenceModel(models.Model):
 
     @cached_property
     def preference(self):
+        #return self.registry[self.section][self.name].initial
         return self.registry.get(section=self.section, name=self.name)
+
 
     def set_value(self, value):
         """
@@ -102,7 +103,6 @@ class GlobalPreferenceModel(BasePreferenceModel):
     class Meta:
         unique_together = ('section', 'name')
         app_label = 'dynamic_preferences'
-
         verbose_name = "global preference"
         verbose_name_plural = "global preferences"
 

@@ -11,11 +11,17 @@ class PreferenceChangeListForm(forms.ModelForm):
     # instance.value will be displayed in form.
     raw_value = forms.CharField()
 
+    def is_multipart(self):
+        """
+        Returns True if the form needs to be multipart-encoded, i.e. it has
+        FileInput. Otherwise, False.
+        """
+        return True
+
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.get('instance')
         super(PreferenceChangeListForm, self).__init__(*args, **kwargs)
-        
-        self.fields['raw_value'] = self.instance.preference.setup_field()            
+        self.fields['raw_value'] = self.instance.preference.setup_field()
 
     def save(self, *args, **kwargs):
         self.cleaned_data['raw_value'] = self.instance.preference.serializer.serialize(self.cleaned_data['raw_value'])
