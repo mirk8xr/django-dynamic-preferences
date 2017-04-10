@@ -6,6 +6,8 @@ from django.db.models.fields.files import FieldFile
 from django.template import defaultfilters
 import os
 
+from dynamic_preferences.settings import preferences_settings
+
 
 class SerializationError(Exception):
     pass
@@ -113,9 +115,6 @@ class StringSerializer(BaseSerializer):
             raise cls.exception("Cannot deserialize value {0} tostring".format(value))
 
 
-DDP_BASE_PATH = ''
-
-
 class UnsetValue(object):
     pass
 UNSET = UnsetValue()
@@ -161,7 +160,7 @@ class FileSerializer(BaseSerializer):
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
 
         try:
-            path = os.path.join(settings.MEDIA_ROOT, DDP_BASE_PATH, file.name)
+            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, file.name)
             cls.handle_uploaded_file(file, path)
             # TODO: delete previous file (if any)
         except AttributeError:
@@ -175,7 +174,7 @@ class FileSerializer(BaseSerializer):
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
 
-        path = os.path.join(settings.MEDIA_ROOT, DDP_BASE_PATH, filename)
+        path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, filename)
 
         if os.path.isfile(path):
             # https://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
