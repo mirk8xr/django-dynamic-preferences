@@ -30,7 +30,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -57,7 +56,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'example.urls'
 
 WSGI_APPLICATION = 'example.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -89,3 +87,5 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'example/images')
+
+DYNAMIC_PREFERENCES = {'FILE_PREFERENCE_REL_UPLOAD_DIR': 'ddp'}
