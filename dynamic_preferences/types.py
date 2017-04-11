@@ -31,6 +31,9 @@ class BasePreferenceType(object):
     #: a default value or a callable that return a value to be used as default
     default_value = None
 
+    # Help text
+    help = ""
+
     _field = None
 
     def get_field_kwargs(self):
