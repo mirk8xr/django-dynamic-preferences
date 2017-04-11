@@ -1,8 +1,13 @@
 """
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """
-
+import shutil
+import os
 from django.db import models
+
+from dynamic_preferences.types import FilePreference
+from dynamic_preferences.utils import get_default_file_path, get_upload_file_path
+
 try:
     from django.contrib.auth import get_user_model
 except ImportError:  # django < 1.5
@@ -15,6 +20,8 @@ from django.conf import settings
 from django.utils.functional import cached_property
 from dynamic_preferences.registries import user_preferences_registry, site_preferences_registry, \
     global_preferences_registry
+
+from django.core.files import File
 
 
 class PreferenceModelManager(models.Manager):
@@ -77,7 +84,15 @@ class BasePreferenceModel(models.Model):
 
         if new:
             if v is not None:
-                self.value = v
+                if isinstance(self.registry[kwargs['section']][kwargs['name']], FilePreference):
+                    # path = get_upload_file_path(v)
+                    # if not os.path.exists(os.path.dirname(path)):
+                    #     os.makedirs(os.path.dirname(path))
+                    # shutil.copy2(get_default_file_path(v), path)
+                    # self.value = open(path, 'wb+')
+                    self.value = File(open(get_default_file_path(v), 'rb+'), name=v)
+                else:
+                    self.value = v
             else:
                 self.value = self.preference.default
 
@@ -86,9 +101,9 @@ class BasePreferenceModel(models.Model):
         # return self.registry[self.section][self.name].initial
         # r = None
         # try:
-        #     self.registry.get(section=self.section, name=self.name)
+        #     r = self.registry.get(section=self.section, name=self.name)
         # except:
-        #     self.registry
+        #     r = {}
         # return r
         return self.registry.get(section=self.section, name=self.name)
 

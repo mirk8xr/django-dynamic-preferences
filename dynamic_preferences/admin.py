@@ -63,6 +63,10 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 
+    def get_query_set(self, request):
+        self.query = PreferenceChangeListForm(self.query)
+        return super(PreferenceChangeListForm, self).get_query_set(request)
+
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
     form = GlobalPreferenceChangeListForm

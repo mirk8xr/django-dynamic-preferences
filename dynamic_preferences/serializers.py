@@ -1,11 +1,10 @@
 from __future__ import unicode_literals
+import os
 from six import string_types
 from django.conf import settings
 from django.core.files.storage import default_storage
 from fields import FieldUpfile
 from django.template import defaultfilters
-import os
-
 from dynamic_preferences.settings import preferences_settings
 
 
@@ -41,7 +40,7 @@ class BooleanSerializer(BaseSerializer):
         "TRUE",
         "1",
         "YES",
-        "Yes"
+        "Yes",
         "yes",
     )
 
@@ -51,16 +50,12 @@ class BooleanSerializer(BaseSerializer):
         "FALSE",
         "0",
         "No",
-        "no"
-        "NO"
+        "no",
+        "NO",
     )
 
     @classmethod
     def serialize(cls, value, **kwargs):
-        """
-            True is serialized to "1" to take less space
-            same for False, with "0"
-        """
         if value:
             return True
         else:
@@ -68,13 +63,10 @@ class BooleanSerializer(BaseSerializer):
 
     @classmethod
     def deserialize(cls, value, **kwargs):
-
         if value in cls.true:
             return True
-
         elif value in cls.false:
             return False
-
         else:
             raise cls.exception("Value {0} can't be deserialized to a Boolean".format(value))
 
@@ -100,7 +92,6 @@ class StringSerializer(BaseSerializer):
     def serialize(cls, value, **kwargs):
         if not isinstance(value, string_types):
             raise cls.exception("Cannot serialize, value {0} is not a string".format(value))
-
         if kwargs.get("escape_html", False):
             return defaultfilters.force_escape(value)
         else:
@@ -159,14 +150,12 @@ class FileSerializer(BaseSerializer):
         # to_db is passed a file object from forms.FileField
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
-
         try:
             path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, file.name)
             cls.handle_uploaded_file(file, path)
             # TODO: delete previous file (if any)
         except AttributeError:
             return ''
-
         return file.name
 
     @classmethod

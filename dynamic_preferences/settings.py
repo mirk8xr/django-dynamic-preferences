@@ -17,9 +17,15 @@ else:
     if not settings.MEDIA_URL:
         raise ImproperlyConfigured('Requested setting MEDIA_URL, but settings are not configured. You must either '
                                    'define the environment variable MEDIA_URL before continuing.')
+    if not settings.PROJECT_DIR:
+        raise ImproperlyConfigured('Requested setting PROJECT_DIR, but settings are not configured. You must either '
+                                   'define the environment variable PROJECT_DIR before continuing.\n'
+                                   'PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))')
+
 
 DEFAULTS = {
-    'FILE_PREFERENCE_REL_UPLOAD_DIR': 'dynamic_preferences',
+    'FILE_PREFERENCE_REL_UPLOAD_DIR': 'dynamic_preferences',    # from MEDIA_ROOT
+    'FILE_PREFERENCE_REL_DEFAULT_DIR': 'default'                # from PROJECT_DIR
 }
 
 
