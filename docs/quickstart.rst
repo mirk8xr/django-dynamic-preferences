@@ -186,4 +186,8 @@ Dynamic-preferences has a few settings you can modify in your `settings.py`.
 - :py:const:`CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS` : will create default preferences objects in database each time a new user is added (default is True). At the moment, this setting will only work with :py:class:`django.contrib.auth.models.User`.
 
 
+Per aggiornare il db se i modelli cambiano
+**************
+python manage.py sqlclear dynamic_preferences
+python manage.py syncdb
 
