@@ -51,6 +51,8 @@ class BasePreference(object):
         :return: a :py:class:`models.BasePreferenceModel` instance
         """
         value = kwargs.pop("value", None)
+        value = kwargs.pop('value', self.default)
+
         help = kwargs.pop("help", None)
         try:
             preference = self.model.objects.get(
@@ -67,7 +69,7 @@ class BasePreference(object):
             preference = self.model(
                 section=self.section,
                 name=self.name,
-                value=value,
+                value=self.default,
                 help=self.help,
                 **kwargs
             )

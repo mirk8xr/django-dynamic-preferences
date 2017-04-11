@@ -18,5 +18,9 @@ def update(d, u):
     return d
 
 
-def get_default_file(filename):
+def get_default_file_path(filename):
     return os.path.join(settings.PROJECT_DIR, preferences_settings.FILE_PREFERENCE_REL_DEFAULT_DIR, filename)
+
+
+def get_upload_file_path(filename):
+    return os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, filename)
