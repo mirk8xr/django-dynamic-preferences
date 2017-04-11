@@ -8,12 +8,12 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
 
 
-def preference_form_builder(form_base_class, preferences=[], **kwargs):
+def preference_form_builder(form_base_class, preferences=(), **kwargs):
     """
     Return a form class for updating preferences
     :param form_base_class: a Form class used as the base. Must have a ``registry` attribute
     :param preferences: a list of :py:class:
-    :param section: a section where the form builder will load preferences
+    :var section: a section where the form builder will load preferences
     """
     registry = form_base_class.registry
     preferences_obj = []
@@ -47,22 +47,23 @@ def preference_form_builder(form_base_class, preferences=[], **kwargs):
     return form_class
 
 
-def global_preference_form_builder(preferences=[], **kwargs):
+def global_preference_form_builder(preferences=(), **kwargs):
     """
     A shortcut :py:func:`preference_form_builder(GlobalPreferenceForm, preferences, **kwargs)`
     """
     return preference_form_builder(GlobalPreferenceForm, preferences, **kwargs)
 
 
-def user_preference_form_builder(user, preferences=[], **kwargs):
+def user_preference_form_builder(user, preferences=(), **kwargs):
     """
     A shortcut :py:func:`preference_form_builder(UserPreferenceForm, preferences, **kwargs)`
     :param user: a :py:class:`django.contrib.auth.models.User` instance
+    :param preferences: preferences
     """
     return preference_form_builder(UserPreferenceForm, preferences, model={'user': user}, **kwargs)
 
 
-def site_preference_form_builder(preferences=[], **kwargs):
+def site_preference_form_builder(preferences=(), **kwargs):
     """
     A shortcut :py:func:`preference_form_builder(SitePreferenceForm, preferences, **kwargs)`
     """
@@ -72,7 +73,7 @@ def site_preference_form_builder(preferences=[], **kwargs):
 class PreferenceForm(forms.Form):
     registry = None
 
-    def update_preferences(self, **kwargs):
+    def update_preferences(self):
         for instance in self.instances:
             instance.value = self.cleaned_data[instance.preference.identifier()]
             instance.save()
@@ -92,20 +93,23 @@ class SitePreferenceForm(PreferenceForm):
 
 class OptimisedClearableFileInput(forms.ClearableFileInput):
     template_with_initial = (
-        '<div> <img src="%(initial_url)s" style="float:left; max-width: 50px;max-height: 50px;margin: 5px 10px 5px 0px;" /> '
+        '<div><img src="%(initial_url)s" style="float:left; max-width:50px; max-height:50px;'
+        ' margin: 5px 10px 5px 0px;" /> '
         '<div style="">%(initial_text)s: <a href="%(initial_url)s" target="_blank">%(initial)s</a></div> </div>'
         '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
     )
     clear_checkbox_label = ugettext_lazy('Remove this file')
     template_with_clear = '%(clear)s %(clear_checkbox_label)s -'
 
-    def is_initial(self, value):
+    @staticmethod
+    def is_initial(value):
         """
         Return whether value is considered to be initial value.
         """
         return bool(value)
 
-    def get_template_substitution_values(self, value):
+    @staticmethod
+    def get_template_substitution_values(value):
         """
         Return value-related substitutions.
         """

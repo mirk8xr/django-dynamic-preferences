@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
-from django.test import LiveServerTestCase, TestCase
-from dynamic_preferences.preferences import site_preferences_registry, user_preferences_registry, global_preferences_registry, SitePreference, UserPreference
+from django.test import LiveServerTestCase
+from dynamic_preferences.preferences import site_preferences_registry, user_preferences_registry, \
+    global_preferences_registry
 from dynamic_preferences.models import SitePreferenceModel, UserPreferenceModel, global_preferences, user_preferences
-
 try:
     from django.contrib.auth import get_user_model
 except ImportError:  # django < 1.5
@@ -11,29 +11,26 @@ else:
     User = get_user_model()
 from django.contrib.sites.models import Site
 from django.db import IntegrityError
-from dynamic_preferences.serializers import *
-from django.template import defaultfilters
 from dynamic_preferences.registries import autodiscover, clear
 from .types import *
 from .test_app.dynamic_preferences_registry import *
 from dynamic_preferences.forms import global_preference_form_builder, user_preference_form_builder
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
-from django.test.utils import override_settings
 
 
 class TestTutorial(LiveServerTestCase):
     """
     Test everything from the tutorial
     """
+
     def setUp(self):
         self.henri = User(username="henri", password="test", email="henri@henri.com")
         self.henri.save()
 
     def test_quickstart(self):
-
         registration_allowed_preference, created = global_preferences.get_or_create(section="user",
-                                                                            name="registration_allowed")
+                                                                                    name="registration_allowed")
         registration_is_allowed = registration_allowed_preference.value
 
         self.assertEqual(registration_is_allowed, False)
@@ -44,7 +41,7 @@ class TestTutorial(LiveServerTestCase):
         self.assertEqual(global_preferences.get(section="user", name="registration_allowed").value, True)
 
         favorite_colour_preference, created = user_preferences.get_or_create(section="misc", name="favourite_colour",
-                                                                user=self.henri)
+                                                                             user=self.henri)
         self.assertEqual(favorite_colour_preference.value, 'Green')
 
         favorite_colour_preference.value = 'Blue'
@@ -53,6 +50,7 @@ class TestTutorial(LiveServerTestCase):
         self.assertEqual(user_preferences.get(section="misc", name="favourite_colour", user=self.henri).value, 'Blue')
 
         self.assertEqual(self.henri.preferences.get(section="misc", name="favourite_colour").value, 'Blue')
+
 
 class TestModels(LiveServerTestCase):
     def test_can_save_and_retrieve_preference_with_section_none(self):
@@ -63,16 +61,14 @@ class TestModels(LiveServerTestCase):
         self.assertEqual(global_preferences.filter(section=None, name="no_section").count(), 1)
 
     def test_adding_user_create_default_prefe_rences(self):
-
         u = User(username="post_create")
         u.save()
 
         self.assertEqual(u.preferences.count(), len(user_preferences_registry.preferences()))
 
+
 class TestDynamicPreferences(LiveServerTestCase):
-
     def setUp(self):
-
         self.test_user = User(username="test", password="test", email="test@test.com")
         self.test_user.save()
 
@@ -80,7 +76,6 @@ class TestDynamicPreferences(LiveServerTestCase):
         self.test_site.save()
 
     def test_can_get_preference_value_by_key(self):
-
         site_pref1 = site_preferences_registry.get("TestSitePref1", "test")
         self.assertEqual(site_pref1.default, TestSitePref1.default)
 
@@ -88,7 +83,6 @@ class TestDynamicPreferences(LiveServerTestCase):
         self.assertEqual(user_pref1.default, TestUserPref1.default)
 
     def test_can_change_site_preference_value(self):
-
         site_pref1 = site_preferences_registry.get("TestSitePref1", "test")
         site_pref1.value = "new value"
 
@@ -97,10 +91,9 @@ class TestDynamicPreferences(LiveServerTestCase):
         user_pref1 = user_preferences_registry.get("TestUserPref1", "test")
         user_pref1.value = "new value"
 
-        self.assertEqual(user_preferences_registry.get("TestUserPref1","test").value, "new value")
+        self.assertEqual(user_preferences_registry.get("TestUserPref1", "test").value, "new value")
 
     def test_site_preference_is_saved_to_database(self):
-
         site_pref1 = site_preferences_registry.get("TestSitePref1", "test")
         site_pref1.to_model(site=self.test_site, value="new site value")
 
@@ -110,14 +103,13 @@ class TestDynamicPreferences(LiveServerTestCase):
         self.assertEqual(test_site_pref1.name, "TestSitePref1")
         self.assertEqual(test_site_pref1.value, "new site value")
 
-
     def test_user_preference_is_saved_to_database(self):
         with self.settings(CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS=False):
             user = User(username="hello")
             user.save()
 
         user_pref1 = user_preferences_registry.get("TestUserPref1", "test")
-        instance = user_pref1.to_model(user=user, value="new user value")
+        user_pref1.to_model(user=user, value="new user value")
 
         test_user_pref1 = UserPreferenceModel.objects.get(section="test", name="TestUserPref1", user=user)
         self.assertEqual(user_pref1, test_user_pref1.preference)
@@ -126,7 +118,6 @@ class TestDynamicPreferences(LiveServerTestCase):
         self.assertEqual(test_user_pref1.value, "new user value")
 
     def test_site_preference_stay_unique_in_db(self):
-
         site_pref1 = site_preferences_registry.get("TestSitePref1", "test")
         site_pref1.to_model(site=self.test_site, value="new value")
 
@@ -136,7 +127,6 @@ class TestDynamicPreferences(LiveServerTestCase):
             duplicate.save()
 
     def test_user_preference_stay_unique_in_db(self):
-
         user_pref1 = user_preferences_registry.get("TestUserPref1", "test")
         user_pref1.to_model(user=self.test_user, value="new value")
 
@@ -146,7 +136,6 @@ class TestDynamicPreferences(LiveServerTestCase):
             duplicate.save()
 
     def test_preference_value_set_to_default(self):
-
         pref = user_preferences_registry.get("TestUserPref1", "test")
         pref.to_model(user=self.test_user)
 
@@ -161,7 +150,6 @@ class TestDynamicPreferences(LiveServerTestCase):
 
 
 class TestPreferenceObjects(LiveServerTestCase):
-
     def test_can_get_to_string_notation(self):
         pref = global_preferences_registry.get('user.registration_allowed')
 
@@ -169,24 +157,22 @@ class TestPreferenceObjects(LiveServerTestCase):
         self.assertEqual(pref.identifier("__"), 'user__registration_allowed')
 
     def test_boolean_field_class_instantiation(self):
-
         preference = TestBooleanPreference()
 
         self.assertEqual(preference.field.initial, False)
 
     def test_char_field_class_instantiation(self):
-
         preference = TestStringPreference()
 
         self.assertEqual(preference.field.initial, "hello world!")
 
     def test_choice_field(self):
-        #preference = TestChoicePreference()
+        # preference = TestChoicePreference()
         pass
-        #self.assertEqual(preference.field.initial, "FR")
+        # self.assertEqual(preference.field.initial, "FR")
+
 
 class TestRegistry(LiveServerTestCase):
-
     def test_can_retrieve_preference_using_dotted_notation(self):
         registration_allowed = global_preferences_registry.get(name="registration_allowed", section="user")
         dotted_result = global_preferences_registry.get("user.registration_allowed")
@@ -213,7 +199,6 @@ class TestRegistry(LiveServerTestCase):
         self.assertEqual(len(site_preferences_registry.preferences(section='test')), 4)
 
     def test_can_autodiscover_user_preferences(self):
-
         clear()
         with self.assertRaises(KeyError):
             user_preferences_registry.preferences(section='test')
@@ -224,14 +209,12 @@ class TestRegistry(LiveServerTestCase):
 
 
 class TestSerializers(LiveServerTestCase):
-
     def test_boolean_serialization(self):
         s = BooleanSerializer
 
         self.assertEqual(s.serialize(True), "1")
         self.assertEqual(s.serialize("True"), "1")
         self.assertEqual(s.serialize("Something"), "1")
-
 
         self.assertEqual(s.serialize(False), "0")
         self.assertEqual(s.serialize(""), "0")
@@ -283,7 +266,7 @@ class TestSerializers(LiveServerTestCase):
         self.assertEqual(s.serialize("I'm a long sentence, but I rock"), "I'm a long sentence, but I rock")
 
         # check for HTML escaping
-        kwargs = {"escape_html": True,}
+        kwargs = {"escape_html": True, }
         self.assertEqual(
             s.serialize("<span>Please, I don't wanna disappear</span>", **kwargs),
             defaultfilters.force_escape("<span>Please, I don't wanna disappear</span>")
@@ -299,15 +282,14 @@ class TestSerializers(LiveServerTestCase):
         self.assertEqual(s.deserialize("12"), "12")
         self.assertEqual(s.deserialize("I'm a long sentence, but I rock"), "I'm a long sentence, but I rock")
 
-        kwargs = {"escape_html": True,}
+        kwargs = {"escape_html": True, }
         self.assertEqual(
             s.deserialize(s.serialize("<span>Please, I don't wanna disappear</span>", **kwargs)),
             defaultfilters.force_escape("<span>Please, I don't wanna disappear</span>")
         )
 
-   
-class TestViews(LiveServerTestCase):
 
+class TestViews(LiveServerTestCase):
     def setUp(self):
         self.henri = User(username="henri", password="test", email="henri@henri.com")
         self.henri.set_password('test')
@@ -316,6 +298,7 @@ class TestViews(LiveServerTestCase):
         self.admin = User(username="admin", email="admin@admin.com", is_superuser=True, is_staff=True)
         self.admin.set_password('test')
         self.admin.save()
+
     def test_can_build_global_preference_form(self):
         # We want to display a form with two global preferences
         # RegistrationAllowed and MaxUsers
@@ -356,7 +339,6 @@ class TestViews(LiveServerTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_global_preference_view_display_form(self):
-
         url = reverse("dynamic_preferences.global")
         self.client.login(username='admin', password="test")
         response = self.client.get(url)
@@ -372,34 +354,40 @@ class TestViews(LiveServerTestCase):
     def test_preference_are_updated_on_form_submission(self):
         self.client.login(username='admin', password="test")
         url = reverse("dynamic_preferences.global.section", kwargs={"section": 'user'})
-        response = self.client.post(url, {'user.max_users': 95, 'user.registration_allowed': True,
-                                          'user.favorite_vegetable': "P", "user.items_per_page": 12})
+        self.client.post(url, {'user.max_users': 95, 'user.registration_allowed': True,
+                               'user.favorite_vegetable': "P", "user.items_per_page": 12})
         self.assertEqual(global_preferences.get(section="user", name="max_users").value, 95)
         self.assertEqual(global_preferences.get(section="user", name="registration_allowed").value, True)
         self.assertEqual(global_preferences.get(section="user", name="favorite_vegetable").value, 'P')
 
     def test_user_preference_form_is_bound_with_current_user(self):
         self.client.login(username='henri', password="test")
-        self.assertEqual(user_preferences.get_or_create(user=self.henri, section="misc", name='favourite_colour')[0].value, 'Green')
-        self.assertEqual(user_preferences.get_or_create(user=self.henri, section="misc", name='is_zombie')[0].value, True)
+        self.assertEqual(
+            user_preferences.get_or_create(user=self.henri, section="misc", name='favourite_colour')[0].value, 'Green')
+        self.assertEqual(user_preferences.get_or_create(user=self.henri, section="misc", name='is_zombie')[0].value,
+                         True)
 
         url = reverse("dynamic_preferences.user.section", kwargs={'section': 'misc'})
-        response = self.client.post(url, {'misc.favourite_colour': 'Purple', 'misc.is_zombie': False})
+        self.client.post(url, {'misc.favourite_colour': 'Purple', 'misc.is_zombie': False})
 
         self.assertEqual(self.henri.preferences.get(section="misc", name='favourite_colour').value, 'Purple')
         self.assertEqual(self.henri.preferences.get(section="misc", name='is_zombie').value, False)
 
     def test_preference_model_manager_to_dict(self):
         call_command('checkpreferences', verbosity=1, interactive=False)
-        expected = {u'test': {u'TestGlobal1': u'default value', u'TestGlobal2': False, u'TestGlobal3': False}, None: {u'no_section': False}, u'user': {u'max_users': 100, u'items_per_page': 25, u'registration_allowed': False, u'favorite_vegetable': u'C'}}
+        expected = {u'test': {u'TestGlobal1': u'default value', u'TestGlobal2': False, u'TestGlobal3': False},
+                    None: {u'no_section': False},
+                    u'user': {u'max_users': 100, u'items_per_page': 25, u'registration_allowed': False,
+                              u'favorite_vegetable': u'C'}}
         self.assertEqual(global_preferences.to_dict(), expected)
 
     def test_user_preference_model_manager_to_dict(self):
         call_command('checkpreferences', verbosity=1, interactive=False)
         user = User.objects.get(pk=self.henri.pk)
-        expected = {u'misc': {u'favourite_colour': u'Green', u'is_zombie': True}, u'test': {u'SUserStringPref': u'Hello world!', u'SiteBooleanPref': False, u'TestUserPref1': u'default value', u'TestUserPref2': u''}}
+        expected = {u'misc': {u'favourite_colour': u'Green', u'is_zombie': True},
+                    u'test': {u'SUserStringPref': u'Hello world!', u'SiteBooleanPref': False,
+                              u'TestUserPref1': u'default value', u'TestUserPref2': u''}}
         self.assertEqual(user_preferences.to_dict(user=user), expected)
-
 
     def test_template_gets_global_preferences_via_template_processor(self):
         call_command('checkpreferences', verbosity=1, interactive=False)

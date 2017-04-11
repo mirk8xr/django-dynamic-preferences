@@ -6,10 +6,7 @@ class TestBooleanPreference(BooleanPreference):
     pass
 
 
-
 class TestStringPreference(StringPreference):
-
     field_attributes = {
         "initial": "hello world!"
     }
-

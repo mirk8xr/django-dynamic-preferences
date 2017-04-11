@@ -15,7 +15,6 @@ ehthumbs.db
 Thumbs.db
 
 *.sql
-*.py[cod]
 *~
 
 docs/_*
@@ -25,4 +24,4 @@ docs/_*
 
 *egg-info
 dist
-example/example/images/
+example/example/images/ddp

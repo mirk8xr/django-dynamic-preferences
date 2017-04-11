@@ -23,13 +23,13 @@ class PreferenceFormView(FormView):
 
     template_name = "dynamic_preferences/form.html"
 
-    def get_form_class(self, *args, **kwargs):
+    def get_form_class(self, **kwargs):
         section = self.kwargs.get('section', None)
         form_class = preference_form_builder(self.form_class, section=section)
         return form_class
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(PreferenceFormView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(PreferenceFormView, self).get_context_data(**kwargs)
         context['registry'] = self.registry
         return context
 
@@ -47,7 +47,7 @@ class UserPreferenceFormView(PreferenceFormView):
     """
     registry = user_preferences_registry
 
-    def get_form_class(self, *args, **kwargs):
+    def get_form_class(self, **kwargs):
         section = self.kwargs.get('section', None)
         form_class = user_preference_form_builder(user=self.request.user, section=section)
         return form_class

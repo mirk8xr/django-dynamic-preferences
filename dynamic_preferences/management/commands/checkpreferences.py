@@ -20,7 +20,7 @@ def delete_preferences(queryset):
     # Iterate through preferences. If an error is raised when accessing preference object, just delete it
     for p in queryset:
         try:
-            pref = p.preference
+            p.preference
         except KeyError:
             p.delete()
             deleted.append(p)

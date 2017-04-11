@@ -45,14 +45,10 @@ class BasePreference(object):
         """
         Retrieve a model instance corresponding to the Preference in database.
         This method will create the model instance if needed.
-
-
         :param kwargs: Keyword arguments that will be passed directly to queryset or new model
         :return: a :py:class:`models.BasePreferenceModel` instance
         """
-        value = kwargs.pop("value", None)
         value = kwargs.pop('value', self.default)
-
         help = kwargs.pop("help", None)
         try:
             preference = self.model.objects.get(
