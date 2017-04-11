@@ -66,8 +66,8 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
     form = GlobalPreferenceChangeListForm
     changelist_form = GlobalPreferenceChangeListForm
-    
-        
+
+
 admin.site.register(GlobalPreferenceModel, GlobalPreferenceAdmin)
 
 
@@ -76,5 +76,6 @@ class UserPreferenceAdmin(DynamicPreferenceAdmin):
     list_display = ('user',) + DynamicPreferenceAdmin.list_display
     search_fields = ['user__username'] + DynamicPreferenceAdmin.search_fields
     changelist_form = UserPreferenceChangeListForm
-        
+
+
 admin.site.register(UserPreferenceModel, UserPreferenceAdmin)
