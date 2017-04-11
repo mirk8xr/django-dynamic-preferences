@@ -59,7 +59,7 @@ class Command(BaseCommand):
         # Global
         preferences = global_preferences_registry.preferences()
         for p in preferences:
-            p.to_model()
+            p.to_model(**{"help": p.help})
 
         print('Created/updated default global preferences')
 

@@ -52,13 +52,16 @@ class BasePreference(object):
         """
 
         value = kwargs.pop('value', None)
-
+        help = kwargs.pop("help", None)
         try:
             preference = self.model.objects.get(
                 section=self.section,
                 name=self.name,
                 **kwargs
             )
+            if help:
+                preference.help = help
+                preference.save()
 
         except self.model.DoesNotExist:
 
