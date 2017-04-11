@@ -80,6 +80,7 @@ class IsZombie(BooleanPreference, UserPreference):
     section = "misc"
     name = "is_zombie"
     default = True
+    help = "IsZombie"
 
 
 @register

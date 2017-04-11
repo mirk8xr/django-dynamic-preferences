@@ -43,12 +43,13 @@ class UserPreferenceChangeListForm(PreferenceChangeListForm):
 
 
 class DynamicPreferenceAdmin(admin.ModelAdmin):
-    readonly_fields = ('name', 'section', 'value', 'help')
+    readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
-    list_display = ('name', 'section', 'raw_value', 'help')
+    list_display = ('section', 'name', 'raw_value', 'help')
     list_editable = ('raw_value',)
-    search_fields = ['name', 'section', 'raw_value', 'help']
+    search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
+    ordering = ('section', 'name')
 
     def has_add_permission(self, request):
         return False
