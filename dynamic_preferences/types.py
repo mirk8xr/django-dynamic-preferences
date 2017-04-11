@@ -130,5 +130,5 @@ class FilePreference(BasePreferenceType):
         kwargs = super(FilePreference, self).get_field_kwargs()
         kwargs['initial'] = self.default
         if self.to_model().value:
-            kwargs['initial'] = self.to_model().value.url
+            kwargs['initial'] = self.to_model().value
         return kwargs

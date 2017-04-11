@@ -1,4 +1,6 @@
 from django import forms
+
+from dynamic_preferences.fields import FieldUpfile
 from .registries import global_preferences_registry, user_preferences_registry, site_preferences_registry
 from six import string_types
 from django.utils.html import conditional_escape
@@ -90,7 +92,8 @@ class SitePreferenceForm(PreferenceForm):
 
 class OptimisedClearableFileInput(forms.ClearableFileInput):
     template_with_initial = (
-        '%(initial_text)s: <a href="%(initial_url)s">%(initial)s</a> <br>'
+        '<div> <img src="%(initial_url)s" style="float:left; max-width: 50px;max-height: 50px;margin: 5px 10px 5px 0px;" /> '
+        '<div style="">%(initial_text)s: <a href="%(initial_url)s">%(initial)s</a></div> </div>'
         '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
     )
     clear_checkbox_label = ugettext_lazy('Remove this file')
@@ -108,7 +111,7 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
         """
         return {
             'initial': conditional_escape(value),
-            'initial_url': conditional_escape(value),
+            'initial_url': FieldUpfile.get_file_url(conditional_escape(value)),
         }
 
     def render(self, name, value, attrs=None):
