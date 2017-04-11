@@ -1,4 +1,7 @@
 import collections
+import os
+from django.conf import settings
+from dynamic_preferences.settings import preferences_settings
 
 
 def update(d, u):
@@ -13,3 +16,7 @@ def update(d, u):
         else:
             d[k] = u[k]
     return d
+
+
+def get_default_file(filename):
+    return os.path.join(settings.PROJECT_DIR, preferences_settings.FILE_PREFERENCE_REL_DEFAULT_DIR, filename)

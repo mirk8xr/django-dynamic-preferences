@@ -50,8 +50,7 @@ class BasePreference(object):
         :param kwargs: Keyword arguments that will be passed directly to queryset or new model
         :return: a :py:class:`models.BasePreferenceModel` instance
         """
-
-        value = kwargs.pop('value', None)
+        value = kwargs.pop("value", None)
         help = kwargs.pop("help", None)
         try:
             preference = self.model.objects.get(

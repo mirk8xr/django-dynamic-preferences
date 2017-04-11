@@ -95,4 +95,4 @@ class IsFanOfTokioHotel(BooleanPreference, UserPreference):
 class FileUpload(FilePreference, GlobalPreference):
     section = "auth"
     name = "file_upload"
-    default = None
+    default = "logo.png"

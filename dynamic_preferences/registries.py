@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.utils.importlib import import_module
 # import the logging library
@@ -7,14 +6,13 @@ import logging
 try:
     # use Python3 reload
     from imp import reload
-
 except:
-
     # we are on Python2
     pass
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
 
 class PreferencesRegistry(dict):
     """
@@ -31,6 +29,7 @@ class PreferencesRegistry(dict):
 
     #: a name to identify the registry
     name = "preferences_registry"
+
     def register(self, name, section, preference):
         """
         Store the given preference in the registry. Will also create the preference in database if it does not exist
