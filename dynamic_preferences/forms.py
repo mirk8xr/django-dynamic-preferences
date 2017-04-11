@@ -40,7 +40,7 @@ def preference_form_builder(form_base_class, preferences=(), **kwargs):
         fields[preference.identifier()] = f
         instances.append(instance)
 
-    form_class = type('Custom' + form_base_class.__name__, (form_base_class,), {})
+    form_class = type('Custom' + form_base_class.get_name(), (form_base_class,), {})
     form_class.base_fields = fields
     form_class.preferences = preferences_obj
     form_class.instances = instances
@@ -72,6 +72,10 @@ def site_preference_form_builder(preferences=(), **kwargs):
 
 class PreferenceForm(forms.Form):
     registry = None
+
+    @classmethod
+    def get_name(cls):
+        return cls.__name__
 
     def update_preferences(self):
         for instance in self.instances:

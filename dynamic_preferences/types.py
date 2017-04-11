@@ -70,10 +70,9 @@ class BasePreferenceType(object):
 
     def setup_field(self):
         """
-            Create an actual instance of self.field
-            Override this method if needed
+        Create an actual instance of self.field
+        Override this method if needed
         """
-
         return self.field_class(**self.get_field_kwargs())
 
 
@@ -114,7 +113,7 @@ class ChoicePreference(BasePreferenceType):
 
     def get_field_kwargs(self):
         field_kwargs = super(ChoicePreference, self).get_field_kwargs()
-        field_kwargs['choices'] = self.choices or self.field_attribute['initial']
+        field_kwargs['choices'] = self.choices or self.field_attributes['initial']
         return field_kwargs
 
 
