@@ -1,6 +1,7 @@
 # Taken from django-rest-framework
 # https://github.com/tomchristie/django-rest-framework
 # Copyright (c) 2011-2015, Tom Christie All rights reserved.
+from django.core.exceptions import ImproperlyConfigured
 
 SETTINGS_ATTR = 'DYNAMIC_PREFERENCES'
 USER_SETTINGS = None
@@ -13,6 +14,9 @@ else:
     # Only pull Django settings if Django environment variable exists.
     if settings.configured:
         USER_SETTINGS = getattr(settings, SETTINGS_ATTR, None)
+    if not settings.MEDIA_URL:
+        raise ImproperlyConfigured('Requested setting MEDIA_URL, but settings are not configured. You must either '
+                                   'define the environment variable MEDIA_URL before continuing.')
 
 DEFAULTS = {
     'FILE_PREFERENCE_REL_UPLOAD_DIR': 'dynamic_preferences',

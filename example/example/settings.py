@@ -92,5 +92,6 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'example/images')
+MEDIA_URL = 'http://127.0.0.1:8000/'
 
 DYNAMIC_PREFERENCES = {'FILE_PREFERENCE_REL_UPLOAD_DIR': 'ddp'}

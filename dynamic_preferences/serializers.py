@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from six import string_types
 from django.conf import settings
 from django.core.files.storage import default_storage
-from django.db.models.fields.files import FieldFile
+from fields import FieldUpfile
 from django.template import defaultfilters
 import os
 
@@ -182,7 +182,7 @@ class FileSerializer(BaseSerializer):
             class FakeField(object):
                 storage = default_storage
 
-            fieldfile = FieldFile(None, FakeField, path)
+            fieldfile = FieldUpfile(None, FakeField, filename)
             return fieldfile
         else:
             return None

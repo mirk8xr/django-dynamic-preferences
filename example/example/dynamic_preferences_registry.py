@@ -9,6 +9,7 @@ class ColorHeader(BooleanPreference, GlobalPreference):
     section = "auth"
     name = "color_header"
     default = True
+    help = ""
 
 
 @register
