@@ -38,7 +38,6 @@ class BasePreferenceType(object):
 
     def get_field_kwargs(self):
         field_kwargs = dict(self._default_field_attributes)
-
         try:
             field_kwargs['initial'] = self.initial
         except AttributeError:
@@ -124,10 +123,3 @@ class FilePreference(BasePreferenceType):
     }
     field_class = forms.FileField
     serializer = FileSerializer
-
-    def get_field_kwargs(self):
-        kwargs = super(FilePreference, self).get_field_kwargs()
-        kwargs['initial'] = self.default
-        if self.to_model().value:
-            kwargs['initial'] = self.to_model().value
-        return kwargs

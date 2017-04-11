@@ -16,23 +16,17 @@ class BasePreference(object):
     """
     A base class that handle common logic  for preferences
     """
-
     #: The registry in which preference will be registered (:py:const:`registries.global_preferences`,
     # :py:const:`registries.site_preferences` or :py:const:`registries.user_preferences`)
     registry = None
-
     #: The section under which the preference will be registered
     section = None
-
     #: The preference name
     name = ""
-
     #: A default value for the preference
     default = None
-
     #: Help text
     help = ""
-
     #: The model corresponding to this preference type (:py:class:`SitePreference`, :py:class:`GlobalPreference` or
     # :py:class:`UserPreference`)
     model = None
@@ -58,9 +52,7 @@ class BasePreference(object):
             if help:
                 preference.help = help
                 preference.save()
-
         except self.model.DoesNotExist:
-
             preference = self.model(
                 section=self.section,
                 name=self.name,
@@ -69,7 +61,6 @@ class BasePreference(object):
                 **kwargs
             )
             preference.save()
-
         return preference
 
     def identifier(self, separator="."):
@@ -83,9 +74,8 @@ class BasePreference(object):
 
 class GlobalPreference(BasePreference):
     """
-        A preference that apply to a whole django installation
+    A preference that apply to a whole django installation
     """
-
     registry = global_preferences_registry
     model = GlobalPreferenceModel
 
@@ -94,14 +84,13 @@ class UserPreference(BasePreference):
     """
     Preference that is tied to a :py:class:`django.contrib.auth.models.User` instance
     """
-
     registry = user_preferences_registry
     model = UserPreferenceModel
 
 
 class SitePreference(BasePreference):
     """
-        Preference for each django.contrib.site
+    Preference for each django.contrib.site
     """
     registry = site_preferences_registry
     model = SitePreferenceModel

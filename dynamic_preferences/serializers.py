@@ -155,7 +155,7 @@ class FileSerializer(BaseSerializer):
             # TODO: delete previous file (if any)
         except AttributeError:
             return ''
-        return file.name
+        return dfile.name
 
     @classmethod
     def to_python(cls, value, **kwargs):
