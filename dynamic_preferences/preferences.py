@@ -69,7 +69,7 @@ class BasePreference(object):
             preference = self.model(
                 section=self.section,
                 name=self.name,
-                value=self.default,
+                value=value,
                 help=self.help,
                 **kwargs
             )
