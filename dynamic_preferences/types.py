@@ -31,6 +31,9 @@ class BasePreferenceType(object):
     #: a default value or a callable that return a value to be used as default
     default_value = None
 
+    # Help text
+    help = ""
+
     _field = None
 
     def get_field_kwargs(self):
@@ -127,5 +130,5 @@ class FilePreference(BasePreferenceType):
         kwargs = super(FilePreference, self).get_field_kwargs()
         kwargs['initial'] = self.default
         if self.to_model().value:
-            kwargs['initial'] = self.to_model().value.url
+            kwargs['initial'] = self.to_model().value
         return kwargs

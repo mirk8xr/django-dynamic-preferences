@@ -62,9 +62,9 @@ class BooleanSerializer(BaseSerializer):
             same for False, with "0"
         """
         if value:
-            return "1"
+            return True
         else:
-            return "0"
+            return False
 
     @classmethod
     def deserialize(cls, value, **kwargs):
@@ -117,11 +117,12 @@ class StringSerializer(BaseSerializer):
 
 class UnsetValue(object):
     pass
+
+
 UNSET = UnsetValue()
 
 
 class FileSerializer(BaseSerializer):
-
     @classmethod
     def serialize(cls, value, **kwargs):
         """

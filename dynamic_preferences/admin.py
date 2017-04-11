@@ -43,17 +43,18 @@ class UserPreferenceChangeListForm(PreferenceChangeListForm):
 
 
 class DynamicPreferenceAdmin(admin.ModelAdmin):
-    readonly_fields = ('name', 'section', 'value')
+    readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
-    list_display = ('name', 'section', 'raw_value')
+    list_display = ('section', 'name', 'raw_value', 'help')
     list_editable = ('raw_value',)
-    search_fields = ['name', 'section', 'raw_value']
+    search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
+    ordering = ('section', 'name')
 
     def has_add_permission(self, request):
         return False
 
-    def has_delete_permission(self, request):
+    def has_delete_permission(self, request, obj=None):
         return False
 
     def get_actions(self, request):
@@ -66,8 +67,8 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
     form = GlobalPreferenceChangeListForm
     changelist_form = GlobalPreferenceChangeListForm
-    
-        
+
+
 admin.site.register(GlobalPreferenceModel, GlobalPreferenceAdmin)
 
 
@@ -76,5 +77,6 @@ class UserPreferenceAdmin(DynamicPreferenceAdmin):
     list_display = ('user',) + DynamicPreferenceAdmin.list_display
     search_fields = ['user__username'] + DynamicPreferenceAdmin.search_fields
     changelist_form = UserPreferenceChangeListForm
-        
+
+
 admin.site.register(UserPreferenceModel, UserPreferenceAdmin)

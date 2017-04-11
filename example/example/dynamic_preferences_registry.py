@@ -9,7 +9,7 @@ class ColorHeader(BooleanPreference, GlobalPreference):
     section = "auth"
     name = "color_header"
     default = True
-    help = ""
+    help = "ColoHeader"
 
 
 @register
@@ -20,6 +20,7 @@ class RegistrationAllowed(BooleanPreference, GlobalPreference):
     section = "auth"
     name = "registration_allowed"
     default = False
+    help = "RegistrationAllowed"
 
 
 @register
@@ -79,6 +80,7 @@ class IsZombie(BooleanPreference, UserPreference):
     section = "misc"
     name = "is_zombie"
     default = True
+    help = "IsZombie"
 
 
 @register

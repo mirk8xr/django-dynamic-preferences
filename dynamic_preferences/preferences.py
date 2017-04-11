@@ -31,6 +31,9 @@ class BasePreference(object):
     #: A default value for the preference
     default = None
 
+    #: Help text
+    help = ""
+
     #: The model corresponding to this preference type (:py:class:`SitePreference`, :py:class:`GlobalPreference` or
     # :py:class:`UserPreference`)
     model = None
@@ -49,13 +52,16 @@ class BasePreference(object):
         """
 
         value = kwargs.pop('value', None)
-
+        help = kwargs.pop("help", None)
         try:
             preference = self.model.objects.get(
                 section=self.section,
                 name=self.name,
                 **kwargs
             )
+            if help:
+                preference.help = help
+                preference.save()
 
         except self.model.DoesNotExist:
 
@@ -63,6 +69,7 @@ class BasePreference(object):
                 section=self.section,
                 name=self.name,
                 value=value,
+                help=self.help,
                 **kwargs
             )
             preference.save()

@@ -58,6 +58,9 @@ class BasePreferenceModel(models.Model):
     #: In order to map the Preference Model Instance to the Preference object.
     registry = None
 
+    #: help text
+    help = models.TextField(null=True, blank=True, default="")
+
     objects = PreferenceModelManager()
 
     class Meta:
