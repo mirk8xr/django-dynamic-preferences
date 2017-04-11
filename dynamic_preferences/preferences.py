@@ -8,7 +8,6 @@ UserPreference, SitePreference and GlobalPreference are mapped to corresponding 
 which store the actual values.
 
 """
-from __future__ import unicode_literals
 from .registries import user_preferences_registry, site_preferences_registry, global_preferences_registry
 from .models import SitePreferenceModel, UserPreferenceModel, GlobalPreferenceModel
 

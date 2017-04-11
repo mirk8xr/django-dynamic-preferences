@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from django.test import LiveServerTestCase
 from dynamic_preferences.preferences import site_preferences_registry, user_preferences_registry, \
     global_preferences_registry
