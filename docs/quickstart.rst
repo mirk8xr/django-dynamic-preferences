@@ -188,6 +188,6 @@ Dynamic-preferences has a few settings you can modify in your `settings.py`.
 
 Per aggiornare il db se i modelli cambiano
 **************
-python manage.py sqlclear dynamic_preferences
+python manage.py sqlclear dynamic_preferences | python manage.py dbshell
 python manage.py syncdb
-
+python manage.py checkpreferences
