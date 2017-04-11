@@ -1,12 +1,10 @@
 """
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """
-import shutil
-import os
 from django.db import models
 
 from dynamic_preferences.types import FilePreference
-from dynamic_preferences.utils import get_default_file_path, get_upload_file_path
+from dynamic_preferences.utils import get_default_file_path
 
 try:
     from django.contrib.auth import get_user_model

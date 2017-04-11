@@ -15,5 +15,3 @@ class FieldUpfile(FieldFile):
     @property
     def url(self):
         return self.get_file_url(self.name)
-
-

@@ -146,13 +146,13 @@ class FileSerializer(BaseSerializer):
                 destination.write(chunk)
 
     @classmethod
-    def to_db(cls, file, **kwargs):
+    def to_db(cls, dfile, **kwargs):
         # to_db is passed a file object from forms.FileField
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
         try:
-            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, file.name)
-            cls.handle_uploaded_file(file, path)
+            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, dfile.name)
+            cls.handle_uploaded_file(dfile, path)
             # TODO: delete previous file (if any)
         except AttributeError:
             return ''
