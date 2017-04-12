@@ -69,6 +69,13 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
         self.query = PreferenceChangeListForm(self.query)
         return super(PreferenceChangeListForm, self).get_query_set(request)
 
+    def get_search_results(self, request, queryset, search_term):
+        queryset_original = queryset
+        queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
+        if not len(queryset):
+            queryset = queryset_original
+        return queryset, use_distinct
+
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
     form = GlobalPreferenceChangeListForm
