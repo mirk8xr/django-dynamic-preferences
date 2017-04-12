@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.contrib import admin
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel
 from django import forms
@@ -64,10 +67,6 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
 
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
-
-    def get_query_set(self, request):
-        self.query = PreferenceChangeListForm(self.query)
-        return super(PreferenceChangeListForm, self).get_query_set(request)
 
     def get_search_results(self, request, queryset, search_term):
         queryset_original = queryset

@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 """
     Class defined here are used by dynamic_preferences.preferences to specify
     preferences types (Bool, int, etc.) and rules according validation

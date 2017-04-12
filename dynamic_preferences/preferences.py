@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 """
 Preferences are regular Python objects that can be declared within any django app.
 Once declared and registered, they can be edited by admins (for :py:class:`SitePreference` 

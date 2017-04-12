@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 import os
 from six import string_types
 from django.conf import settings

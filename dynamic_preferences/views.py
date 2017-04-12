@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.views.generic import TemplateView, FormView
 from .forms import preference_form_builder, user_preference_form_builder
 from .registries import user_preferences_registry

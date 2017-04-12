@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from .models import global_preferences as gb, user_preferences as up
 
 

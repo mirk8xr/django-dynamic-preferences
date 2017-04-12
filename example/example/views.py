@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.shortcuts import render
 # from dynamic_preferences.models import global_preferences
 # from dynamic_preferences.registries import autodiscover

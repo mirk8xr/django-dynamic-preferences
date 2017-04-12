@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django import forms
 
 from dynamic_preferences.fields import FieldUpfile
