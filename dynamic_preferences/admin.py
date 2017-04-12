@@ -47,6 +47,7 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
     list_display = ['section', 'name', 'raw_value', 'help']
+    list_display_links = ('name',)
     list_editable = ('raw_value',)
     search_fields = ['section', 'name', 'help']
     list_filter = ('section',)

@@ -100,7 +100,8 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
         '<div><img src="%(initial_url)s" style="float:left; max-width:50px; max-height:50px;'
         ' margin: 5px 10px 5px 0px;" /> '
         '<div style="">%(initial_text)s: <a href="%(initial_url)s" target="_blank">%(initial)s</a></div> </div>'
-        '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
+        # '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
+        '<span>%(input)s</span>'
     )
     clear_checkbox_label = ugettext_lazy('Remove this file')
     template_with_clear = '%(clear)s %(clear_checkbox_label)s -'
