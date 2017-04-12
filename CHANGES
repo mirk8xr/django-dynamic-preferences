@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.7.4
+*****
+
+On 12/04/2016
+
+- Required django 1.6
+- Added FileField
+- Added ColorField
+- Various bugfix
+
 0.2.4
 *****
 

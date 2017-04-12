@@ -4,9 +4,9 @@ Quickstart
 Installation
 ************
 
-Dynamic-preferences is available on `PyPi <https://pypi.python.org/pypi/django-dynamic-preferences>`_ and can be installed with::
+Dynamic-preferences-plus is available on `PyPi <https://pypi.python.org/pypi/django-dynamic-preferences-plus>`_ and can be installed with::
 
-    pip install django-dynamic-preferences
+    pip install django-dynamic-preferences-plus
 
 Setup
 *****
@@ -124,12 +124,12 @@ Most of the time, you probably won't need to manipulate preferences by hand, and
 Admin integration
 *****************
 
-Dynamic-preferences integrates with `django.contrib.admin` out of the box. You can therefore use the admin interface to edit preferences values, which is particularly convenient for global and per-site preferences.
+Dynamic-preferences-plus integrates with `django.contrib.admin` out of the box. You can therefore use the admin interface to edit preferences values, which is particularly convenient for global and per-site preferences.
 
 Accessing preferences values within a template
 **********************************************
 
-Dynamic-preferences provide some context processors (remember to ad them to your settings, as described in "Installation") that will pass registries values to your templates context. You can access passed values as follows::
+Dynamic-preferences-plus provide some context processors (remember to ad them to your settings, as described in "Installation") that will pass registries values to your templates context. You can access passed values as follows::
 
     # in myapp/mytemplate.html
 
@@ -181,13 +181,12 @@ To solve this, you can run ``python manage.py checkpreferences`` inside your pro
 A few settings
 **************
 
-Dynamic-preferences has a few settings you can modify in your `settings.py`.
+Dynamic-preferences-plus has a few settings you can modify in your `settings.py`.
 
 - :py:const:`CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS` : will create default preferences objects in database each time a new user is added (default is True). At the moment, this setting will only work with :py:class:`django.contrib.auth.models.User`.
 
-
-Per aggiornare il db se i modelli cambiano
-******************************************
+To update the models if they change
+***********************************
 python manage.py sqlclear dynamic_preferences | python manage.py dbshell
 python manage.py syncdb
 python manage.py checkpreferences

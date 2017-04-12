@@ -4,7 +4,7 @@
 
 """
 from django import forms
-from dynamic_preferences.forms import OptimisedClearableFileInput
+from dynamic_preferences.forms import OptimisedClearableFileInput, ColorInput
 from dynamic_preferences.serializers import *
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -101,7 +101,7 @@ class StringPreference(BasePreferenceType):
 
 class ColorPreference(StringPreference):
     _default_field_attributes = {
-        "widget": forms.TextInput(attrs={'type': 'color'}),
+        "widget": ColorInput(attrs={'type': 'color'}),
     }
 
 

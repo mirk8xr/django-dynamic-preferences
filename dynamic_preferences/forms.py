@@ -6,6 +6,8 @@ from six import string_types
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
+from django.utils.html import format_html, force_text
+from django.forms.util import flatatt
 
 
 def preference_form_builder(form_base_class, preferences=(), **kwargs):
@@ -144,3 +146,25 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
                 substitutions['clear'] = forms.CheckboxInput().render(checkbox_name, False, attrs={'id': checkbox_id})
                 substitutions['clear_template'] = self.template_with_clear % substitutions
         return mark_safe(template % substitutions)
+
+
+class ColorInput(forms.TextInput):
+    def render(self, name, value, attrs=None):
+        if value is None:
+            value = ''
+        final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
+        if value != '':
+            # Only add the 'value' attribute if a value is non-empty.
+            final_attrs['value'] = force_text(self._format_value(value))
+        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;' value='" + value + "' />"
+
+        js_script = "<script type='text/javascript'>"
+        js_script = js_script + "document.getElementsByName('" + name + "')[0]" \
+                                ".addEventListener('input', function(e){ " \
+                                "document.getElementById('" + name + "-sp').value = this.value; });"
+        js_script = js_script + "document.getElementById('" + name + "-sp')" \
+                                ".addEventListener('input', function(e){ console.log(this.value); " \
+                                "document.getElementsByName('" + name + "')[0].value = this.value; });</script>"
+
+        html = format_html('<input{0} />', flatatt(final_attrs))
+        return html + t + js_script

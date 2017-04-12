@@ -1,7 +1,7 @@
 Commands
 ========
 
-Dynamic-preferences is bundles with a few commands that help you preserve your database integrity. These are regular
+Dynamic-preferences-plus is bundles with a few commands that help you preserve your database integrity. These are regular
 django commands you can invoke with ``python manage.py <commandname>``.
 
 Checkpreferences
