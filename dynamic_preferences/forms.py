@@ -153,7 +153,6 @@ class ColorInput(forms.TextInput):
         if value is None:
             value = ''
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        t = ""
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_text(self._format_value(value))
