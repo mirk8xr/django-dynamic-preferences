@@ -43,6 +43,7 @@ class UserPreferenceChangeListForm(PreferenceChangeListForm):
 
 
 class DynamicPreferenceAdmin(admin.ModelAdmin):
+    changelist_form = PreferenceChangeListForm
     readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
     list_display = ['section', 'name', 'raw_value', 'help']
@@ -78,9 +79,9 @@ admin.site.register(GlobalPreferenceModel, GlobalPreferenceAdmin)
 
 class UserPreferenceAdmin(DynamicPreferenceAdmin):
     form = UserPreferenceChangeListForm
+    changelist_form = UserPreferenceChangeListForm
     list_display = ['user'] + DynamicPreferenceAdmin.list_display
     search_fields = ['user__username'] + DynamicPreferenceAdmin.search_fields
-    changelist_form = UserPreferenceChangeListForm
 
 
 admin.site.register(UserPreferenceModel, UserPreferenceAdmin)

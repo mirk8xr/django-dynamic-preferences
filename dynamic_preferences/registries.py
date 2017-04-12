@@ -109,10 +109,16 @@ class GlobalPreferencesRegistry(PreferencesRegistry):
 
 
 class SitePreferencesRegistry(PreferencesRegistry):
-    pass
+    def populate(self, **kwargs):
+        # TODO: implement this method
+        raise NotImplementedError
 
 
 class UserPreferencesRegistry(PreferencesRegistry):
+    def populate(self, **kwargs):
+        # TODO: implement this method
+        raise NotImplementedError
+
     def create_default_preferences(self, user):
         """
         Create default preferences models for a given user
