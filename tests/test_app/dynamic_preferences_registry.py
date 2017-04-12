@@ -14,6 +14,7 @@ class RegistrationAllowed(BooleanPreference, GlobalPreference):
     name = "registration_allowed"
     default = False
 
+
 @register
 class MaxUsers(IntPreference, GlobalPreference):
     """
@@ -23,16 +24,16 @@ class MaxUsers(IntPreference, GlobalPreference):
     name = "max_users"
     default = 100
 
+
 @register
 class ItemsPerPage(IntPreference, GlobalPreference):
-   
     section = "user"
     name = "items_per_page"
     default = 25
 
+
 @register
 class FavoriteVegetable(ChoicePreference, GlobalPreference):
-
     choices = (
         ("C", "Carrot"),
         ("T", "Tomato. I know, it's not a vegetable"),
@@ -41,6 +42,7 @@ class FavoriteVegetable(ChoicePreference, GlobalPreference):
     section = "user"
     name = "favorite_vegetable"
     default = "C"
+
 
 @register
 class FavouriteColour(UserPreference, StringPreference):
@@ -51,6 +53,7 @@ class FavouriteColour(UserPreference, StringPreference):
     name = "favourite_colour"
     default = "Green"
 
+
 @register
 class IsZombie(BooleanPreference, UserPreference):
     """
@@ -59,6 +62,7 @@ class IsZombie(BooleanPreference, UserPreference):
     section = "misc"
     name = "is_zombie"
     default = True
+
 
 class BaseTestPref(object):
     section = "test"
@@ -71,21 +75,23 @@ class NoSection(BooleanPreference, GlobalPreference):
     default = False
 
 
-
 # User preferences
 @register
 class TestUserPref1(StringPreference, BaseTestPref, UserPreference):
     name = "TestUserPref1"
     default = "default value"
 
+
 @register
 class TestUserPref2(StringPreference, BaseTestPref, UserPreference):
     name = "TestUserPref2"
+
 
 @register
 class UserBooleanPref(BooleanPreference, BaseTestPref, UserPreference):
     name = "SiteBooleanPref"
     default = False
+
 
 @register
 class UserStringPref(StringPreference, BaseTestPref, UserPreference):
@@ -99,19 +105,23 @@ class TestSitePref1(StringPreference, BaseTestPref, SitePreference):
     name = "TestSitePref1"
     default = "site default value"
 
+
 @register
 class TestSitePref2(StringPreference, BaseTestPref, SitePreference):
     name = "TestSitePref2"
+
 
 @register
 class SiteBooleanPref(BooleanPreference, BaseTestPref, SitePreference):
     name = "SiteBooleanPref"
     default = False
 
+
 @register
 class SiteIntPref(IntPreference, BaseTestPref, SitePreference):
     name = "SiteIntPref"
     default = 2
+
 
 # Global
 @register
@@ -130,7 +140,3 @@ class TestGlobal2(BooleanPreference, BaseTestPref, GlobalPreference):
 class TestGlobal3(BooleanPreference, BaseTestPref, GlobalPreference):
     name = "TestGlobal3"
     default = False
-
-
-
-

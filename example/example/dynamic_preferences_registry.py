@@ -4,11 +4,11 @@ from dynamic_preferences.registries import register
 
 
 @register
-class ColorHeader(BooleanPreference, GlobalPreference):
+class ColorHeader(ColorPreference, GlobalPreference):
 
     section = "auth"
     name = "color_header"
-    default = True
+    default = "#34343"
     help = "ColoHeader"
 
 
@@ -95,4 +95,4 @@ class IsFanOfTokioHotel(BooleanPreference, UserPreference):
 class FileUpload(FilePreference, GlobalPreference):
     section = "auth"
     name = "file_upload"
-    default = "avatar_mirk8xr_fb.jpg"
+    default = "logo.png"

@@ -1,12 +1,10 @@
 """
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """
-import shutil
-import os
 from django.db import models
 
 from dynamic_preferences.types import FilePreference
-from dynamic_preferences.utils import get_default_file_path, get_upload_file_path
+from dynamic_preferences.utils import get_default_file_path
 
 try:
     from django.contrib.auth import get_user_model
@@ -170,7 +168,7 @@ def create_default_preferences(sender, **kwargs):
     if create_default_preferencesfor_new_users and settings.AUTH_USER_MODEL == "auth.User":
         # the object which is saved can be accessed via kwargs 'instance' key.
         obj = kwargs['instance']
-        created = kwargs.get("created")
+        # created = kwargs.get("created")
         user_preferences_registry.create_default_preferences(obj)
 
 

@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import os
 from six import string_types
 from django.conf import settings
@@ -14,7 +13,7 @@ class SerializationError(Exception):
 
 class BaseSerializer(object):
     """
-        A serializer take a Python variable and returns a string that can be stored safely in database
+    A serializer take a Python variable and returns a string that can be stored safely in database
     """
     exception = SerializationError
 
@@ -146,17 +145,17 @@ class FileSerializer(BaseSerializer):
                 destination.write(chunk)
 
     @classmethod
-    def to_db(cls, file, **kwargs):
+    def to_db(cls, dfile, **kwargs):
         # to_db is passed a file object from forms.FileField
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
         try:
-            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, file.name)
-            cls.handle_uploaded_file(file, path)
+            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, dfile.name)
+            cls.handle_uploaded_file(dfile, path)
             # TODO: delete previous file (if any)
         except AttributeError:
             return ''
-        return file.name
+        return dfile.name
 
     @classmethod
     def to_python(cls, value, **kwargs):

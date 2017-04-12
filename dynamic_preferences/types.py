@@ -38,7 +38,6 @@ class BasePreferenceType(object):
 
     def get_field_kwargs(self):
         field_kwargs = dict(self._default_field_attributes)
-
         try:
             field_kwargs['initial'] = self.initial
         except AttributeError:
@@ -70,10 +69,9 @@ class BasePreferenceType(object):
 
     def setup_field(self):
         """
-            Create an actual instance of self.field
-            Override this method if needed
+        Create an actual instance of self.field
+        Override this method if needed
         """
-
         return self.field_class(**self.get_field_kwargs())
 
 
@@ -101,6 +99,12 @@ class StringPreference(BasePreferenceType):
     default = ""
 
 
+class ColorPreference(StringPreference):
+    _default_field_attributes = {
+        "widget": forms.TextInput(attrs={'type': 'color'}),
+    }
+
+
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
         "widget": forms.Textarea,
@@ -114,7 +118,7 @@ class ChoicePreference(BasePreferenceType):
 
     def get_field_kwargs(self):
         field_kwargs = super(ChoicePreference, self).get_field_kwargs()
-        field_kwargs['choices'] = self.choices or self.field_attribute['initial']
+        field_kwargs['choices'] = self.choices or self.field_attributes['initial']
         return field_kwargs
 
 
@@ -125,10 +129,3 @@ class FilePreference(BasePreferenceType):
     }
     field_class = forms.FileField
     serializer = FileSerializer
-
-    def get_field_kwargs(self):
-        kwargs = super(FilePreference, self).get_field_kwargs()
-        kwargs['initial'] = self.default
-        if self.to_model().value:
-            kwargs['initial'] = self.to_model().value
-        return kwargs
