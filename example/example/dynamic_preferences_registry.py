@@ -4,11 +4,11 @@ from dynamic_preferences.registries import register
 
 
 @register
-class ColorHeader(BooleanPreference, GlobalPreference):
+class ColorHeader(ColorPreference, GlobalPreference):
 
     section = "auth"
     name = "color_header"
-    default = True
+    default = "#34343"
     help = "ColoHeader"
 
 

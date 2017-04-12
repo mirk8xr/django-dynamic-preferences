@@ -99,6 +99,12 @@ class StringPreference(BasePreferenceType):
     default = ""
 
 
+class ColorPreference(StringPreference):
+    _default_field_attributes = {
+        "widget": forms.TextInput(attrs={'type': 'color'}),
+    }
+
+
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
         "widget": forms.Textarea,
