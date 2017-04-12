@@ -159,7 +159,7 @@ class ColorInput(forms.TextInput):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_text(self._format_value(value))
-        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;' value='" + value + "' />"
+        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;width: 80px;' maxlength='6' value='" + value + "' />"
 
         js_script = "<script type='text/javascript'>"
         js_script = js_script + "document.getElementsByName('" + name + "')[0]" \
@@ -169,5 +169,5 @@ class ColorInput(forms.TextInput):
                                 ".addEventListener('input', function(e){ console.log(this.value); " \
                                 "document.getElementsByName('" + name + "')[0].value = this.value; });</script>"
 
-        html = format_html('<input{0} />', flatatt(final_attrs))
+        html = format_html('<input{0} style="width:65px;"/>', flatatt(final_attrs))
         return html + t + js_script
