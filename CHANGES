@@ -5,6 +5,9 @@ Changelog
 *****
 
 - Fix admin preference model search
+- Fix encoding UTF-8
+- Fix FieldColor width and maxlength
+- Fix raw value for color
 
 0.7.4
 *****
