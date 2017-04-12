@@ -5,7 +5,6 @@ from dynamic_preferences.registries import register
 
 @register
 class ColorHeader(ColorPreference, GlobalPreference):
-
     section = "auth"
     name = "color_header"
     default = "#34343"
@@ -15,7 +14,7 @@ class ColorHeader(ColorPreference, GlobalPreference):
 @register
 class RegistrationAllowed(BooleanPreference, GlobalPreference):
     """
-    Are new registrations allowed ?
+    Are new registrations allowed?
     """
     section = "auth"
     name = "registration_allowed"
@@ -26,7 +25,7 @@ class RegistrationAllowed(BooleanPreference, GlobalPreference):
 @register
 class MaxUsers(IntPreference, GlobalPreference):
     """
-    Are new registrations allowed ?
+    Are new registrations allowed?
     """
     section = "auth"
     name = "max_users"
@@ -35,7 +34,6 @@ class MaxUsers(IntPreference, GlobalPreference):
 
 @register
 class Header(LongStringPreference, GlobalPreference):
-    
     section = "general"
     name = "presentation"
     default = "You need a presentation"
@@ -43,7 +41,6 @@ class Header(LongStringPreference, GlobalPreference):
 
 @register
 class ItemsPerPage(IntPreference, GlobalPreference):
-
     section = "display"
     name = "items_per_page"
     default = 25
@@ -51,7 +48,6 @@ class ItemsPerPage(IntPreference, GlobalPreference):
 
 @register
 class FavoriteVegetable(ChoicePreference, GlobalPreference):
-
     choices = (
         ("C", "Carrot"),
         ("T", "Tomato. I know, it's not a vegetable"),
@@ -75,7 +71,7 @@ class FavouriteColour(UserPreference, StringPreference):
 @register
 class IsZombie(BooleanPreference, UserPreference):
     """
-    Are you a zombie ?
+    Are you a zombie?
     """
     section = "misc"
     name = "is_zombie"
@@ -85,7 +81,6 @@ class IsZombie(BooleanPreference, UserPreference):
 
 @register
 class IsFanOfTokioHotel(BooleanPreference, UserPreference):
-    
     section = "music"
     name = "is_fan_of_tokio_hotel"
     default = False

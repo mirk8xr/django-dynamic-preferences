@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# django-dynamic-preferences documentation build configuration file, created by
+# django-dynamic-preferences-plus documentation build configuration file, created by
 # sphinx-quickstart on Sat Jun 28 13:23:43 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-dynamic-preferences'
-copyright = u'2014, Eliot Berriot'
+copyright = u'2016, Team QWL'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -200,7 +200,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     ('index', 'django-dynamic-preferences.tex', u'django-dynamic-preferences Documentation',
-     u'Eliot Berriot', 'manual'),
+     u'Team QWL', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -230,7 +230,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'django-dynamic-preferences', u'django-dynamic-preferences Documentation',
-     [u'Eliot Berriot'], 1)
+     [u'Team QWL'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -244,7 +244,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'django-dynamic-preferences', u'django-dynamic-preferences Documentation',
-     u'Eliot Berriot', 'django-dynamic-preferences', 'One line description of project.',
+     u'Team QWL', 'django-dynamic-preferences', 'One line description of project.',
      'Miscellaneous'),
 ]
 
