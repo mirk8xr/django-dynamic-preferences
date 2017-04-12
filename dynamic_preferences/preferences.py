@@ -56,7 +56,7 @@ class BasePreference(object):
             preference = self.model(
                 section=self.section,
                 name=self.name,
-                value=value,
+                value=value.encode('utf-8'),
                 help=self.help,
                 **kwargs
             )
