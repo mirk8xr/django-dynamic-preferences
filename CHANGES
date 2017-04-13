@@ -1,10 +1,18 @@
 Changelog
 =========
 
+0.7.6
+*****
+
+On 13/04/2016
+
+- Style StringPreference widget
+- Style LongStringPreference widget
+
 0.7.5
 *****
 
-On /04/2016
+On 13/04/2016
 
 - Fix admin preference model search
 - Fix encoding UTF-8
