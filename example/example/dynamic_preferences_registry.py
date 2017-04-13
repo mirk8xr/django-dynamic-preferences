@@ -7,6 +7,14 @@ from dynamic_preferences.registries import register
 
 
 @register
+class Title(StringPreference, GlobalPreference):
+    section = "auth"
+    name = "title"
+    default = "title"
+    help = "Title"
+
+
+@register
 class ColorHeader(ColorPreference, GlobalPreference):
     section = "auth"
     name = "color_header"
