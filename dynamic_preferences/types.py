@@ -97,6 +97,9 @@ class IntPreference(BasePreferenceType):
 
 
 class StringPreference(BasePreferenceType):
+    _default_field_attributes = {
+        "widget": forms.TextInput(attrs={'style': 'width:90%;'}),
+    }
     field_class = forms.CharField
     serializer = StringSerializer
     default = ""
@@ -110,7 +113,7 @@ class ColorPreference(StringPreference):
 
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
-        "widget": forms.Textarea(attrs={'style': 'width:99%;'}),
+        "widget": forms.Textarea(attrs={'style': 'width:90%;', 'rows': '3'}),
     }
 
 
