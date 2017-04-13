@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 """
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """

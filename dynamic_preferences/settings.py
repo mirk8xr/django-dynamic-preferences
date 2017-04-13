@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 # Taken from django-rest-framework
 # https://github.com/tomchristie/django-rest-framework
 # Copyright (c) 2011-2015, Tom Christie All rights reserved.

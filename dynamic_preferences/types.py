@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 """
     Class defined here are used by dynamic_preferences.preferences to specify
     preferences types (Bool, int, etc.) and rules according validation
@@ -107,7 +110,7 @@ class ColorPreference(StringPreference):
 
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
-        "widget": forms.Textarea,
+        "widget": forms.Textarea(attrs={'style': 'width:99%;'}),
     }
 
 

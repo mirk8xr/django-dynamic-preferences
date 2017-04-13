@@ -1,10 +1,13 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django import forms
 
 from dynamic_preferences.fields import FieldUpfile
 from .registries import global_preferences_registry, user_preferences_registry, site_preferences_registry
 from six import string_types
 from django.utils.html import conditional_escape
-from django.utils.safestring import mark_safe
+from django.utils.safestring import mark_safe, SafeText
 from django.utils.translation import ugettext_lazy
 from django.utils.html import format_html, force_text
 from django.forms.util import flatatt
@@ -149,6 +152,7 @@ class OptimisedClearableFileInput(forms.ClearableFileInput):
 
 
 class ColorInput(forms.TextInput):
+
     def render(self, name, value, attrs=None):
         if value is None:
             value = ''
@@ -156,8 +160,9 @@ class ColorInput(forms.TextInput):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_text(self._format_value(value))
-        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;' value='" + value + "' />"
 
+        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;width: 80px;' maxlength='6' value='" + \
+            value + "' />"
         js_script = "<script type='text/javascript'>"
         js_script = js_script + "document.getElementsByName('" + name + "')[0]" \
                                 ".addEventListener('input', function(e){ " \
@@ -165,6 +170,5 @@ class ColorInput(forms.TextInput):
         js_script = js_script + "document.getElementById('" + name + "-sp')" \
                                 ".addEventListener('input', function(e){ console.log(this.value); " \
                                 "document.getElementsByName('" + name + "')[0].value = this.value; });</script>"
-
-        html = format_html('<input{0} />', flatatt(final_attrs))
-        return html + t + js_script
+        html = format_html('<input{0} style="width:65px;"/>' + t, flatatt(final_attrs)) + SafeText(js_script)
+        return html

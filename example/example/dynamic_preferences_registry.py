@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from dynamic_preferences.preferences import UserPreference, GlobalPreference
 from dynamic_preferences.types import *
 from dynamic_preferences.registries import register

@@ -1,6 +1,18 @@
 Changelog
 =========
 
+0.7.5
+*****
+
+On /04/2016
+
+- Fix admin preference model search
+- Fix encoding UTF-8
+- Fix FieldColor width and maxlength
+- Fix search
+- Fix raw value for color
+- Style textarea widget
+
 0.7.4
 *****
 

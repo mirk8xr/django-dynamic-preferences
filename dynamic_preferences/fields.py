@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 import os
 import urlparse
 from django.conf import settings

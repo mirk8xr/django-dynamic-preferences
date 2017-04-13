@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.core.management.base import BaseCommand
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel, SitePreferenceModel
 try:
