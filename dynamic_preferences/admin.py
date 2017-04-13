@@ -59,6 +59,12 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
         super(DynamicPreferenceAdmin, self).__init__(*args, **kwargs)
         self.list_display_links = (None,)
 
+    # Redirect single change_view edit to main page
+    def change_view(self, request, obj=None):
+        from django.core.urlresolvers import reverse
+        from django.http import HttpResponseRedirect
+        return HttpResponseRedirect(reverse('admin:dynamic_preferences_globalpreferencemodel_changelist'))
+
     def has_add_permission(self, request):
         return False
 
