@@ -11,6 +11,7 @@ UserPreference, SitePreference and GlobalPreference are mapped to corresponding 
 which store the actual values.
 
 """
+import numbers
 from .registries import user_preferences_registry, site_preferences_registry, global_preferences_registry
 from .models import SitePreferenceModel, UserPreferenceModel, GlobalPreferenceModel
 
@@ -56,10 +57,12 @@ class BasePreference(object):
                 preference.help = help
                 preference.save()
         except self.model.DoesNotExist:
+            if not isinstance(value, numbers.Number):
+                value = value.encode('utf-8')
             preference = self.model(
                 section=self.section,
                 name=self.name,
-                value=value.encode('utf-8'),
+                value=value,
                 help=self.help,
                 **kwargs
             )
