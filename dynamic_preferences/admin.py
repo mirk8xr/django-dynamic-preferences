@@ -52,7 +52,8 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     list_display = ['section', 'name', 'raw_value', 'help']
     list_display_links = ['name',]
     list_editable = ('raw_value',)
-    search_fields = ['section', 'name', 'help']
+    #search_fields = ['section', 'name', 'help']
+    search_fields = []
     list_filter = ('section',)
     ordering = ('section', 'name')
 
@@ -68,13 +69,13 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 
-    def get_search_results(self, request, queryset, search_term):
-        queryset_original = queryset
-        queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
-        if not len(queryset):
-            # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
-            queryset = queryset_original
-        return queryset, use_distinct
+    # def get_search_results(self, request, queryset, search_term):
+    #     queryset_original = queryset
+    #     queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
+    #     if not len(queryset):
+    #         # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
+    #         queryset = queryset_original
+    #     return queryset, use_distinct
 
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
