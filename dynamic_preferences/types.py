@@ -110,7 +110,7 @@ class ColorPreference(StringPreference):
 
 class LongStringPreference(StringPreference):
     _default_field_attributes = {
-        "widget": forms.Textarea,
+        "widget": forms.Textarea(attrs={'style': 'width:99%;'}),
     }
 
 
