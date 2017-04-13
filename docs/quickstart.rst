@@ -190,3 +190,11 @@ To update the models if they change
 python manage.py sqlclear dynamic_preferences | python manage.py dbshell
 python manage.py syncdb
 python manage.py checkpreferences
+
+
+Add to STATICFILES_DIRS the media folder of django-dynamic-preferences
+**********************************************************************
+# from distutils.sysconfig import get_python_lib
+# STATICFILES_DIRS = (
+#    get_python_lib() + 'django-dynamic-preferences/django_preferences/media',
+# )

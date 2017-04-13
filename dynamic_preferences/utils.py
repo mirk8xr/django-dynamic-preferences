@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 import collections
 import os
 from django.conf import settings
@@ -24,3 +27,7 @@ def get_default_file_path(filename):
 
 def get_upload_file_path(filename):
     return os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, filename)
+
+# def get_static_dynamic_prefereces_dir():
+#     from distutils.sysconfig import get_python_lib
+#     return get_python_lib() + 'django-dynamic-preferences/django_preferences/media',

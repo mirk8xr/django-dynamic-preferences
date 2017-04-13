@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.conf import settings, global_settings as default_settings
 from django.core.management import call_command
 from django.test.utils import get_runner

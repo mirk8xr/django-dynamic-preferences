@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 import os
 from six import string_types
 from django.conf import settings
@@ -92,15 +95,15 @@ class StringSerializer(BaseSerializer):
         if not isinstance(value, string_types):
             raise cls.exception("Cannot serialize, value {0} is not a string".format(value))
         if kwargs.get("escape_html", False):
-            return defaultfilters.force_escape(value)
+            return defaultfilters.force_escape(value.encode('utf-8'))
         else:
-            return value
+            return value.encode('utf-8')
 
     @classmethod
     def deserialize(cls, value, **kwargs):
         """String deserialisation just return the value as a string"""
         try:
-            return str(value)
+            return str(value.encode('utf-8'))
         except:
             raise cls.exception("Cannot deserialize value {0} tostring".format(value))
 

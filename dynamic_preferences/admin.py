@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 from django.contrib import admin
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel
 from django import forms
@@ -47,7 +50,7 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
     list_display = ['section', 'name', 'raw_value', 'help']
-    list_display_links = ('name',)
+    list_display_links = ['name',]
     list_editable = ('raw_value',)
     search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
@@ -65,9 +68,13 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 
-    def get_query_set(self, request):
-        self.query = PreferenceChangeListForm(self.query)
-        return super(PreferenceChangeListForm, self).get_query_set(request)
+    def get_search_results(self, request, queryset, search_term):
+        queryset_original = queryset
+        queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
+        if not len(queryset):
+            # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
+            queryset = queryset_original
+        return queryset, use_distinct
 
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):

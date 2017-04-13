@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# encoding:UTF-8
+
 """
 Django settings for example project.
 
@@ -90,7 +93,9 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
+
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'example/images')
 MEDIA_URL = 'http://127.0.0.1:8000/'
 
@@ -98,3 +103,9 @@ DYNAMIC_PREFERENCES = {
     'FILE_PREFERENCE_REL_UPLOAD_DIR': 'ddp',
     'FILE_PREFERENCE_REL_DEFAULT_DIR': 'example/images/default',
 }
+
+STATICFILES_DIRS = ()
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
