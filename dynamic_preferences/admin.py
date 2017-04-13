@@ -50,11 +50,14 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
     list_display = ['section', 'name', 'raw_value', 'help']
-    list_display_links = ('name',)
     list_editable = ('raw_value',)
     search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
     ordering = ('section', 'name')
+
+    def __init__(self, *args, **kwargs):
+        super(DynamicPreferenceAdmin, self).__init__(*args, **kwargs)
+        self.list_display_links = (None,)
 
     def has_add_permission(self, request):
         return False
@@ -72,6 +75,7 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
         queryset_original = queryset
         queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
         if not len(queryset):
+            # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
             queryset = queryset_original
         return queryset, use_distinct
 
