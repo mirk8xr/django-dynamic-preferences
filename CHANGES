@@ -7,6 +7,7 @@ Changelog
 On 13/04/2016
 
 - Remove search in django admin
+- Fix management command checkpreferences
 
 0.7.6
 *****
