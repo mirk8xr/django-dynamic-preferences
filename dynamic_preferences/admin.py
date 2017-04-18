@@ -1,10 +1,15 @@
 # !/usr/bin/env python
 # encoding:UTF-8
 
+import operator
 from django.contrib import admin
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel
 from django import forms
 from dynamic_preferences.types import FilePreference
+from django.db import models
+from django.contrib.admin.util import lookup_needs_distinct
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 
 class PreferenceChangeListForm(forms.ModelForm):
@@ -57,8 +62,7 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     list_display = ['section', 'name', 'raw_value', 'help']
     list_display_links = ['name', ]
     list_editable = ('raw_value',)
-    #search_fields = ['section', 'name', 'help']
-    search_fields = []
+    search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
     ordering = ('section', 'name')
 
@@ -74,13 +78,38 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 
-    # def get_search_results(self, request, queryset, search_term):
-    #     queryset_original = queryset
-    #     queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
-    #     if not len(queryset):
-    #         # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
-    #         queryset = queryset_original
-    #     return queryset, use_distinct
+    def get_search_results(self, request, queryset, search_term):
+
+        # Apply keyword searches.
+        def construct_search(field_name):
+            if field_name.startswith('^'):
+                return "%s__istartswith" % field_name[1:]
+            elif field_name.startswith('='):
+                return "%s__iexact" % field_name[1:]
+            elif field_name.startswith('@'):
+                return "%s__search" % field_name[1:]
+            else:
+                return "%s__icontains" % field_name
+
+        initial_queryset = queryset
+        use_distinct = False
+        if self.search_fields and search_term:
+            orm_lookups = [construct_search(str(search_field)) for search_field in self.search_fields]
+            for bit in search_term.split():
+                or_queries = [models.Q(**{orm_lookup: bit}) for orm_lookup in orm_lookups]
+                queryset = queryset.filter(reduce(operator.or_, or_queries))
+            if not use_distinct:
+                for search_spec in orm_lookups:
+                    if lookup_needs_distinct(self.opts, search_spec):
+                        use_distinct = True
+                        break
+        if not queryset.count():
+            queryset = initial_queryset
+            if search_term != '':
+                self.message_user(request,
+                                  _('Nessun risultato trovato per \"%(search_term)s\"') % {'search_term': search_term},
+                                  messages.INFO)
+        return queryset, use_distinct
 
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
@@ -95,8 +124,7 @@ class UserPreferenceAdmin(DynamicPreferenceAdmin):
     form = UserPreferenceChangeListForm
     changelist_form = UserPreferenceChangeListForm
     list_display = ['user'] + DynamicPreferenceAdmin.list_display
-    #search_fields = ['user__username'] + DynamicPreferenceAdmin.search_fields
-    search_fields = []
+    search_fields = ['user__username'] + DynamicPreferenceAdmin.search_fields
 
 
 admin.site.register(UserPreferenceModel, UserPreferenceAdmin)
