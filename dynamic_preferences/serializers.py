@@ -8,6 +8,7 @@ from django.core.files.storage import default_storage
 from fields import FieldUpfile
 from django.template import defaultfilters
 from dynamic_preferences.settings import preferences_settings
+from django.utils import timezone
 
 
 class SerializationError(Exception):
@@ -147,17 +148,31 @@ class FileSerializer(BaseSerializer):
             for chunk in f.chunks():
                 destination.write(chunk)
 
+    @staticmethod
+    def append_suffix(filename):
+        # add random suffix to avoid browser cache
+        name, ext = os.path.splitext(filename)
+        return "{name}_{suffix}{ext}".format(name=name, suffix=timezone.now().strftime('%Y%m%d%H%M%S%f')[-4:], ext=ext)
+
     @classmethod
     def to_db(cls, dfile, **kwargs):
         # to_db is passed a file object from forms.FileField
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
         try:
-            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, dfile.name)
+            dfile.name = cls.append_suffix(dfile.name)
+            path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR,
+                                dfile.name)
             cls.handle_uploaded_file(dfile, path)
-            # TODO: delete previous file (if any)
         except AttributeError:
             return ''
+        if kwargs.get('delete_filename', None):
+            # delete previous file
+            try:
+                os.remove(os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR,
+                                       kwargs.get('delete_filename')))
+            except OSError:
+                pass
         return dfile.name
 
     @classmethod

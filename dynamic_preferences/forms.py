@@ -161,7 +161,7 @@ class ColorInput(forms.TextInput):
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_text(self._format_value(value))
 
-        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;width: 80px;' maxlength='6' value='" + \
+        t = "<input id='" + name + "-sp' style='position:relative;left: 5px;width: 80px;' maxlength='7' value='" + \
             value + "' />"
         js_script = "<script type='text/javascript'>"
         js_script = js_script + "document.getElementsByName('" + name + "')[0]" \

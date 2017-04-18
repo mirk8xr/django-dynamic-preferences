@@ -24,4 +24,4 @@ docs/_*
 
 *egg-info
 dist
-example/example/images/ddp
+example/example/images/*
