@@ -1,10 +1,20 @@
 Changelog
 =========
 
+0.7.8
+*****
+
+On 18/04/2017
+
+- Fix ColorInput style
+- Delete file after upload new file FileSerializer
+- Fix search admin (get_search_results)
+- Fix form multipart-encoded
+
 0.7.7
 *****
 
-On 13/04/2016
+On 13/04/2017
 
 - Remove search in django admin
 - Fix management command checkpreferences
@@ -12,7 +22,7 @@ On 13/04/2016
 0.7.6
 *****
 
-On 13/04/2016
+On 13/04/2017
 
 - Style StringPreference widget
 - Style LongStringPreference widget
@@ -20,7 +30,7 @@ On 13/04/2016
 0.7.5
 *****
 
-On 13/04/2016
+On 13/04/2017
 
 - Fix admin preference model search
 - Fix encoding UTF-8
@@ -32,7 +42,7 @@ On 13/04/2016
 0.7.4
 *****
 
-On 12/04/2016
+On 12/04/2017
 
 - Required django 1.6
 - Added FileField
