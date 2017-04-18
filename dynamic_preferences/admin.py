@@ -1,9 +1,15 @@
 # !/usr/bin/env python
 # encoding:UTF-8
 
+import operator
 from django.contrib import admin
 from dynamic_preferences.models import GlobalPreferenceModel, UserPreferenceModel
 from django import forms
+from dynamic_preferences.types import FilePreference
+from django.db import models
+from django.contrib.admin.util import lookup_needs_distinct
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 
 class PreferenceChangeListForm(forms.ModelForm):
@@ -16,22 +22,26 @@ class PreferenceChangeListForm(forms.ModelForm):
 
     def is_multipart(self):
         """
-        TODO: capire come fixare meglio l'accrocchio del multipart-encoded
         Returns True if the form needs to be multipart-encoded, i.e. it has
         FileInput. Otherwise, False.
         """
-        return True
+        for section in self.instance.registry:
+            for pref in self.instance.registry[section]:
+                if isinstance(self.instance.registry[section][pref], FilePreference):
+                    return True
+        return False
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.get('instance')
-        # self.raw_value = self.instance.preference.setup_field()
-        # self.base_fields = {'raw_value': self.instance.preference.setup_field()}
-        # self.declared_fields = self.base_fields
         super(PreferenceChangeListForm, self).__init__(*args, **kwargs)
         self.fields['raw_value'] = self.instance.preference.setup_field()
 
     def save(self, *args, **kwargs):
-        self.cleaned_data['raw_value'] = self.instance.preference.serializer.serialize(self.cleaned_data['raw_value'])
+        ikargs = {}
+        if isinstance(self.instance.preference, FilePreference):
+            ikargs['delete_filename'] = self.initial['raw_value']
+        self.cleaned_data['raw_value'] = self.instance.preference.serializer.serialize(self.cleaned_data['raw_value'],
+                                                                                       **ikargs)
         return super(PreferenceChangeListForm, self).save(*args, **kwargs)
 
 
@@ -50,10 +60,9 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     readonly_fields = ('section', 'name', 'value', 'help')
     fields = ("raw_value",)
     list_display = ['section', 'name', 'raw_value', 'help']
-    list_display_links = ['name',]
+    list_display_links = ['name', ]
     list_editable = ('raw_value',)
-    #search_fields = ['section', 'name', 'help']
-    search_fields = []
+    search_fields = ['section', 'name', 'help']
     list_filter = ('section',)
     ordering = ('section', 'name')
 
@@ -69,13 +78,38 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return self.changelist_form
 
-    # def get_search_results(self, request, queryset, search_term):
-    #     queryset_original = queryset
-    #     queryset, use_distinct = super(DynamicPreferenceAdmin, self).get_search_results(request, queryset, search_term)
-    #     if not len(queryset):
-    #         # self.message_user(request, "No result found for: '" + search_term + "'", messages.SUCCESS)
-    #         queryset = queryset_original
-    #     return queryset, use_distinct
+    def get_search_results(self, request, queryset, search_term):
+
+        # Apply keyword searches.
+        def construct_search(field_name):
+            if field_name.startswith('^'):
+                return "%s__istartswith" % field_name[1:]
+            elif field_name.startswith('='):
+                return "%s__iexact" % field_name[1:]
+            elif field_name.startswith('@'):
+                return "%s__search" % field_name[1:]
+            else:
+                return "%s__icontains" % field_name
+
+        initial_queryset = queryset
+        use_distinct = False
+        if self.search_fields and search_term:
+            orm_lookups = [construct_search(str(search_field)) for search_field in self.search_fields]
+            for bit in search_term.split():
+                or_queries = [models.Q(**{orm_lookup: bit}) for orm_lookup in orm_lookups]
+                queryset = queryset.filter(reduce(operator.or_, or_queries))
+            if not use_distinct:
+                for search_spec in orm_lookups:
+                    if lookup_needs_distinct(self.opts, search_spec):
+                        use_distinct = True
+                        break
+        if not queryset.count():
+            queryset = initial_queryset
+            if search_term != '':
+                self.message_user(request,
+                                  _('Nessun risultato trovato per \"%(search_term)s\"') % {'search_term': search_term},
+                                  messages.INFO)
+        return queryset, use_distinct
 
 
 class GlobalPreferenceAdmin(DynamicPreferenceAdmin):
