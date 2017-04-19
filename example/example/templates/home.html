@@ -1,11 +1,8 @@
-<title>{{ global_preferences.general__presentation }}</title>
-Eccomi<br/>
 {% if request.user.preferences.misc__is_zombie %}
     You will receive an email each time a human is zombified
 {% endif %}
 max_users: {{ global_preferences.auth.max_users }}<br/>
 favorite_vegetable: {{ global_preferences.auth.favorite_vegetable }}<br/>
-file_upload: {{ global_preferences.auth.file_upload.path }}<br/>
-<a href="{{ global_preferences.auth.file_upload.url }}">{{ global_preferences.auth.file_upload.name }}</a><br/><br/>
-<a href="{% url 'admin:index' %}">ADMIN</a><br/>
-Fine
+file_upload(path): {{ global_preferences.auth.file_upload.path }}<br/>
+file_upload(file): <a href="{{ global_preferences.auth.file_upload.url }}">{{ global_preferences.auth.file_upload.name }}</a><br/><br/>
+<a href="{% url 'admin:index' %}">Vai all'admin</a><br/>

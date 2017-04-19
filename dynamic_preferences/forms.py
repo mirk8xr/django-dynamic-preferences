@@ -2,7 +2,6 @@
 # encoding:UTF-8
 
 from django import forms
-
 from dynamic_preferences.fields import FieldUpfile
 from .registries import global_preferences_registry, user_preferences_registry, site_preferences_registry
 from six import string_types
@@ -102,8 +101,8 @@ class SitePreferenceForm(PreferenceForm):
 
 class OptimisedClearableFileInput(forms.ClearableFileInput):
     template_with_initial = (
-        '<div><img src="%(initial_url)s" style="float:left; max-width:50px; max-height:50px;'
-        ' margin: 5px 10px 5px 0px;" /> '
+        '<div><div style="width: 50px;max-height: 50px;float: left;margin: 0px 10px 0px 0px;">'
+        '<img src="%(initial_url)s" style=" max-width:50px; max-height:50px;" /></div> '
         '<div style="">%(initial_text)s: <a href="%(initial_url)s" target="_blank">%(initial)s</a></div> </div>'
         # '<span class="clear-file"> %(clear_template)s</span> <span>%(input_text)s: %(input)s </span>'
         '<span>%(input)s</span>'

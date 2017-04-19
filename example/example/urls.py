@@ -1,17 +1,16 @@
 # !/usr/bin/env python
 # encoding:UTF-8
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.conf import settings
 from dynamic_preferences.registries import autodiscover
 
 admin.autodiscover()
 
-urlpatterns = patterns(
+urlpatterns = i18n_patterns(
     '',
-    # Examples:
-    # url(r'^blog/', include('blog.urls')),
     url(r'^$', 'example.views.home', name='home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^preferences/', include('dynamic_preferences.urls')),

@@ -5,24 +5,21 @@
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """
 from django.db import models
-
-from dynamic_preferences.types import FilePreference
-from dynamic_preferences.utils import get_default_file_path
-
 try:
     from django.contrib.auth import get_user_model
 except ImportError:  # django < 1.5
     from django.contrib.auth.models import User
 else:
     User = get_user_model()
+
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.functional import cached_property
 from dynamic_preferences.registries import user_preferences_registry, site_preferences_registry, \
     global_preferences_registry
-
 from django.core.files import File
+from django.utils.translation import ugettext as _
 
 
 class PreferenceModelManager(models.Manager):
@@ -132,8 +129,8 @@ class GlobalPreferenceModel(BasePreferenceModel):
     class Meta:
         unique_together = ('section', 'name')
         app_label = 'dynamic_preferences'
-        verbose_name = "global preference"
-        verbose_name_plural = "global preferences"
+        verbose_name = _('global preference')
+        verbose_name_plural = _('global preferences')
 
 
 class UserPreferenceModel(BasePreferenceModel):
@@ -143,8 +140,8 @@ class UserPreferenceModel(BasePreferenceModel):
     class Meta:
         unique_together = ('user', 'section', 'name')
         app_label = 'dynamic_preferences'
-        verbose_name = "user preference"
-        verbose_name_plural = "user preferences"
+        verbose_name = _('user preference')
+        verbose_name_plural = _('user preferences')
 
 
 class SitePreferenceModel(BasePreferenceModel):
@@ -154,8 +151,8 @@ class SitePreferenceModel(BasePreferenceModel):
     class Meta:
         unique_together = ('site', 'section', 'name')
         app_label = 'dynamic_preferences'
-        verbose_name = "site preference"
-        verbose_name_plural = "site preferences"
+        verbose_name = _('site preference')
+        verbose_name_plural = _('site preferences')
 
 
 global_preferences = GlobalPreferenceModel.objects
