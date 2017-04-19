@@ -5,3 +5,4 @@ include runtests.py
 recursive-include docs
 recursive-include dynamic_preferences/templates *
 recursive-include dynamic_preferences/static *
+recursive-include dynamic_preferences/locale *
