@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.7.11
+*****
+
+On 19/04/2017
+
+- Fix Manifest.in to upload locale dir
+
 0.7.10
 *****
 
