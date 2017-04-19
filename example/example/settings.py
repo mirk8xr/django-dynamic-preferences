@@ -97,9 +97,8 @@ LANGUAGES_ALL = (
     ('en', 'English'),
 )
 LOCALE_PATHS = (
-    os.path.join(PROJECT_DIR, '../locale'),
+    os.path.join(PROJECT_DIR, '../dynamic_preferences/locale'),
 )
-
 SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
