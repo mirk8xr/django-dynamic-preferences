@@ -107,7 +107,7 @@ class DynamicPreferenceAdmin(admin.ModelAdmin):
             queryset = initial_queryset
             if search_term != '':
                 self.message_user(request,
-                                  _('No results found for \"%(search_term)s\"') % {'search_term': search_term},
+                                  _('No results found for \'%(search_term)s\'') % {'search_term': search_term},
                                   messages.INFO)
         return queryset, use_distinct
 

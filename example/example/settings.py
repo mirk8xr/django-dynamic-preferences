@@ -54,12 +54,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'dynamic_preferences.processors.global_preferences',
+    'django.core.context_processors.i18n'
 )
 
 ROOT_URLCONF = 'example.urls'
@@ -79,15 +81,24 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Europe/Rome'
+USE_TZ = True
 USE_I18N = True
-
 USE_L10N = True
 
-USE_TZ = True
+LANGUAGE_CODE = 'it'
+LANGUAGES = (
+    ('it', 'Italiano'),
+    ('en', 'English'),
+)
+ENABLED_LANGUAGES = [l[0] for l in LANGUAGES]
+LANGUAGES_ALL = (
+    ('it', 'Italiano'),
+    ('en', 'English'),
+)
+LOCALE_PATHS = (
+    os.path.join(PROJECT_DIR, '../locale'),
+)
 
 SITE_ID = 1
 
@@ -110,3 +121,4 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+

@@ -2,7 +2,6 @@
 # encoding:UTF-8
 
 from django import forms
-
 from dynamic_preferences.fields import FieldUpfile
 from .registries import global_preferences_registry, user_preferences_registry, site_preferences_registry
 from six import string_types
