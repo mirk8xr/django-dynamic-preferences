@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-19 13:59+0200\n"
+"PO-Revision-Date: 2016-06-22 10:15+0200\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!= 1;\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: dynamic_preferences/admin.py:110
+#, python-format
+msgid "No results found for '%(search_term)s'"
+msgstr ""
+
+#: dynamic_preferences/forms.py:112
+msgid "Remove this file"
+msgstr ""
+
+#: dynamic_preferences/models.py:136
+msgid "global preference"
+msgstr "Global preference"
+
+#: dynamic_preferences/models.py:137
+msgid "global preferences"
+msgstr "Global preferences"
+
+#: dynamic_preferences/models.py:147
+msgid "user preference"
+msgstr "User preference"
+
+#: dynamic_preferences/models.py:148
+msgid "user preferences"
+msgstr "User preferences"
+
+#: dynamic_preferences/models.py:158
+msgid "site preference"
+msgstr "Site preference"
+
+#: dynamic_preferences/models.py:159
+msgid "site preferences"
+msgstr "Site preferences"
+
+#: dynamic_preferences/types.py:82 example/example/templates/home.html:8
+#: example/example/templates/home.html:12
+msgid "yes"
+msgstr "Yes"
+
+#: dynamic_preferences/types.py:82
+msgid "no"
+msgstr "No"
+
+#: dynamic_preferences/templates/dynamic_preferences/form.html:8
+msgid "Submit"
+msgstr ""
+
+#~ msgid "dynamic_preferences"
+#~ msgstr "Dynamic preferences"
