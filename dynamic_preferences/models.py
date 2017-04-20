@@ -20,6 +20,8 @@ from dynamic_preferences.registries import user_preferences_registry, site_prefe
     global_preferences_registry
 from django.core.files import File
 from django.utils.translation import ugettext as _
+from dynamic_preferences.types import FilePreference
+from dynamic_preferences.utils import get_default_file_path
 
 
 class PreferenceModelManager(models.Manager):
