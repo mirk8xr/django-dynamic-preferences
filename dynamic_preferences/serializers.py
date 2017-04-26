@@ -177,6 +177,12 @@ class FileSerializer(BaseSerializer):
 
     @classmethod
     def to_python(cls, value, **kwargs):
+
+        # https://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
+        # TODO: Understand this FieldFile better and maybe remove the FakeField workaround
+        class FakeField(object):
+            storage = default_storage
+
         filename = value
         if not settings.MEDIA_ROOT:
             raise cls.exception("You need to set MEDIA_ROOT in your settings.py")
@@ -184,12 +190,11 @@ class FileSerializer(BaseSerializer):
         path = os.path.join(settings.MEDIA_ROOT, preferences_settings.FILE_PREFERENCE_REL_UPLOAD_DIR, filename)
 
         if os.path.isfile(path):
-            # https://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
-            # TODO: Understand this FieldFile better and maybe remove the FakeField workaround
-            class FakeField(object):
-                storage = default_storage
 
             fieldfile = FieldUpfile(None, FakeField, filename)
             return fieldfile
         else:
-            return None
+            #return None
+            fieldfile = FieldUpfile(None, FakeField, filename)
+            return fieldfile
+
