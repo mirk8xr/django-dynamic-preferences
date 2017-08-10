@@ -5,12 +5,6 @@
 Preference models, queryset and managers that handle the logic for persisting preferences.
 """
 from django.db import models
-try:
-    from django.contrib.auth import get_user_model
-except ImportError:  # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
 
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
@@ -174,4 +168,11 @@ def create_default_preferences(sender, **kwargs):
         user_preferences_registry.create_default_preferences(obj)
 
 
-post_save.connect(create_default_preferences, sender=User)
+if getattr(settings, 'CREATE_DEFAULT_PREFERENCES_FOR_NEW_USERS', True) and settings.AUTH_USER_MODEL == "auth.User":
+    try:
+        from django.contrib.auth import get_user_model
+    except ImportError:  # django < 1.5
+        from django.contrib.auth.models import User
+    else:
+        User = get_user_model()
+    post_save.connect(create_default_preferences, sender=User)
