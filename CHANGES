@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.7.15
+*****
+
+On 30/01/2019
+
+- Fix FieldUpfile url; now it will encode space
+
 0.7.14
 *****
 
